@@ -1,0 +1,44 @@
+# This is a basic workflow to help you get started with Actions
+
+name: Build and publish to GitHub Packages
+
+# Controls when the action will run. Triggers the workflow on push or pull request
+# events but only for the master branch
+on:
+  push:
+    branches: [ main ]
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  bitcoin_core:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+    if: "!contains(github.event.head_commit.message, '[ci skip]')"
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+    # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+    - uses: actions/checkout@v2
+
+    # Login to Github packages
+    - name: Login to GitHub Container Registry
+      uses: docker/login-action@v1
+      with:
+        registry: ghcr.io
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Setup VERSION
+      run: |
+          export VERSION=$(cat bitcoin-core/VERSION)
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+
+    # Runs a single command using the runners shell
+    - name: Docker build
+      run: docker build --build-arg VRS=${VERSION} -f $GITHUB_WORKSPACE/bitcoin-core/Dockerfile -t ghcr.io/farcaster-project/service-containers/bitcoin-core:latest -t ghcr.io/farcaster-project/service-containers/bitcoin-core:${VERSION} $GITHUB_WORKSPACE/bitcoin-core
+
+    - name: Docker push to GitHub Packages
+      run:  |
+          docker push ghcr.io/farcaster-project/service-containers/bitcoin-core:$VERSION
+          docker push ghcr.io/farcaster-project/service-containers/bitcoin-core:latest
