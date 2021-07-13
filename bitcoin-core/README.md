@@ -32,7 +32,7 @@ All the ports are exposed by defaut. `bitcoin-cli` is also installed.
 ```yaml
     services:
       bitcoin-core:
-        image: ghcr.io/farcaster-project/service-containers/bitcoin-core
+        image: ghcr.io/farcaster-project/containers/bitcoin-core
         env:
           NETWORK: -stagenet
           RPC_USER: ci

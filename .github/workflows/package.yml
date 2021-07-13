@@ -36,9 +36,9 @@ jobs:
 
     # Runs a single command using the runners shell
     - name: Docker build
-      run: docker build --build-arg VRS=${VERSION} -f $GITHUB_WORKSPACE/bitcoin-core/Dockerfile -t ghcr.io/farcaster-project/service-containers/bitcoin-core:latest -t ghcr.io/farcaster-project/service-containers/bitcoin-core:${VERSION} $GITHUB_WORKSPACE/bitcoin-core
+      run: docker build --build-arg VRS=${VERSION} -f $GITHUB_WORKSPACE/bitcoin-core/Dockerfile -t ghcr.io/farcaster-project/containers/bitcoin-core:latest -t ghcr.io/farcaster-project/containers/bitcoin-core:${VERSION} $GITHUB_WORKSPACE/bitcoin-core
 
     - name: Docker push to GitHub Packages
       run:  |
-          docker push ghcr.io/farcaster-project/service-containers/bitcoin-core:$VERSION
-          docker push ghcr.io/farcaster-project/service-containers/bitcoin-core:latest
+          docker push ghcr.io/farcaster-project/containers/bitcoin-core:$VERSION
+          docker push ghcr.io/farcaster-project/containers/bitcoin-core:latest
