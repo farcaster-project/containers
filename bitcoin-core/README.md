@@ -1,7 +1,7 @@
 `bitcoin-core` container
 ===
 
-Build the image against `alpine:edge` with
+Build the image against `ubuntu:20.04` with
 
 ```
 docker build --build-arg VRS=0.21.1 -t ...:latest .
@@ -14,7 +14,12 @@ Available `build-arg`:
 Create a container with
 
 ```
-docker create -p 18443:18443 --env RPC_USER=... --env RPC_PASS=... --env NETWORK=regtest --env FALLBACKFEE=0.00001 ...:latest
+docker create -p 18443:18443\
+    --env RPC_USER=...\
+    --env RPC_PASS=...\
+    --env NETWORK=regtest\
+    --env FALLBACKFEE=0.00001\
+    ...:latest
 ```
 
 Available environment variables:
@@ -41,4 +46,20 @@ All the ports are exposed by defaut. `bitcoin-cli` is also installed.
           FALLBACKFEE: 0.00001
         ports:
           - 18443:18443
+```
+
+## Standalone usage
+
+```
+ID=$(docker create -p 18443:18443\
+    --env NETWORK=regtest\
+    --env RPC_USER=test\
+    --env RPC_PASS=cEl2o3tHHgzYeuu3CiiZ2FjdgSiw9wNeMFzoNbFmx9k=\
+    --env FALLBACKFEE=0.00001\
+    ghcr.io/farcaster-project/containers/bitcoin-core:latest)
+
+docker start $ID
+...
+docker kill $ID
+docker container rm $ID
 ```
