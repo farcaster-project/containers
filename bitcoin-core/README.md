@@ -43,7 +43,7 @@ All the ports are exposed by defaut. `bitcoin-cli` is also installed.
           NETWORK: regtest
           RPC_USER: ci
           RPC_PASS: ${{ secrets.RPC_PASS }}
-          FALLBACKFEE: 0.00001
+          FALLBACKFEE: "0.00001"
         ports:
           - 18443:18443
 ```
