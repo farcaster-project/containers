@@ -15,16 +15,18 @@ Create a container with
 
 ```
 docker create -p 18443:18443\
-    --env RPC_USER=...\
-    --env RPC_PASS=...\
     --env NETWORK=regtest\
     --env FALLBACKFEE=0.00001\
+    --env RPC_PORT=18443
+    --name bitcoind\
     ...:latest
 ```
 
+The bitcoin datadir is in the /data volume and can be accessed by addtionally passing for example `-v /path/to/host/folder:data` to `docker create`.
+
 Available environment variables:
 
-- **NETWORK**: a flag inteded for the network, but this can be used more broadly as it is directly passed to `bitcoind` with a prepended `-`
+- **NETWORK**: a flag intended for the network, but this can be used more broadly as it is directly passed to `bitcoind` with a prepended `-`
 - **RPC_USER**: the RPC user name
 - **RPC_PASS**: the RPC password
 - **FALLBACKFEE**: the fallbackfee parameter
@@ -41,9 +43,9 @@ All the ports are exposed by defaut. `bitcoin-cli` is also installed.
         image: ghcr.io/farcaster-project/containers/bitcoin-core
         env:
           NETWORK: regtest
-          RPC_USER: ci
-          RPC_PASS: ${{ secrets.RPC_PASS }}
+          RPC_PORT: 18443
           FALLBACKFEE: "0.00001"
+        options: -v ~/data_dir:/data
         ports:
           - 18443:18443
 ```
@@ -52,10 +54,11 @@ All the ports are exposed by defaut. `bitcoin-cli` is also installed.
 
 ```
 ID=$(docker create -p 18443:18443\
+    --name bitcoind\
     --env NETWORK=regtest\
-    --env RPC_USER=test\
-    --env RPC_PASS=cEl2o3tHHgzYeuu3CiiZ2FjdgSiw9wNeMFzoNbFmx9k=\
+    --env RPC_PORT=18443\
     --env FALLBACKFEE=0.00001\
+    -v ~/data_dir:/data\
     ghcr.io/farcaster-project/containers/bitcoin-core:latest)
 
 docker start $ID
