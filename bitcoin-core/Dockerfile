@@ -22,4 +22,6 @@ COPY --from=install /usr/bin/bitcoin-cli /usr/bin/bitcoin-cli
 
 EXPOSE 8332 8333 18332 18333 18443 18444
 
-CMD ["sh", "-c", "/usr/bin/bitcoind -$NETWORK -server -rest -rpcbind=0.0.0.0 -rpcallowip=0.0.0.0/0 -rpcuser=$RPC_USER -rpcpassword=$RPC_PASS -fallbackfee=$FALLBACKFEE"]
+VOLUME /data
+
+CMD ["sh", "-c", "/usr/bin/bitcoind -$NETWORK -server -rest -rpcport=$RPC_PORT -rpcbind=0.0.0.0 -rpcallowip=0.0.0.0/0 -fallbackfee=$FALLBACKFEE -datadir=/data"]
