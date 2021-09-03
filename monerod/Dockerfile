@@ -7,7 +7,8 @@ RUN echo $VERSION
 RUN apt update && apt install -y wget
 # Get bins and signatures
 RUN wget https://downloads.getmonero.org/cli/monero-linux-x64-$VERSION.tar.bz2
-RUN echo "8069012ad5e7b35f79e35e6ca71c2424efc54b61f6f93238b182981ba83f2311 monero-linux-x64-$VERSION.tar.bz2" | sha256sum -c
+COPY SHASUM ./
+RUN echo "$(head -n 1 ./SHASUM) monero-linux-x64-$VERSION.tar.bz2" | sha256sum -c
 
 # Extract and install binaries
 RUN tar xf monero-linux-x64-$VERSION.tar.bz2

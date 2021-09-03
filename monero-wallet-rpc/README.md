@@ -4,7 +4,7 @@
 Build the image against `ubuntu:20.04` with
 
 ```
-docker build --build-arg VRS=v0.17.2.3 -t ...:latest .
+docker build --build-arg VRS=v0.17.2.3 -t monero-wallet-rpc:latest .
 ```
 
 Available `build-arg`:
@@ -15,12 +15,14 @@ Create a container with
 
 ```
 docker create -p 18083:18083\
-    --env MONEROD_ADDRESS=monerod:18081\
     --name monero-wallet-rpc\
-    ...:latest
+    --env MONEROD_ADDRESS=monerod:18081\
+    -v /path/to/wallets:/wallets\
+    --link monerod\
+    monero-wallet-rpc:latest
 ```
 
-The wallet data dir is mounted on /wallets.
+The wallet data dir is in the `/wallets` volume.
 
 Available environment variables:
 
@@ -34,6 +36,15 @@ All the ports are exposed by defaut. Other monero binaries, like the `monero-wal
 
 ```yaml
     services:
+      monerod:
+        image: ghcr.io/farcaster-project/containers/monerod
+        env:
+          NETWORK: regtest
+          MONEROD_RPC_PORT: 18081
+          OFFLINE: --offline
+          DIFFICULTY: 1
+        ports:
+          - 18081:18081
       monero-wallet-rpc:
         image: ghcr.io/farcaster-project/containers/monero-wallet-rpc
         env:
@@ -42,17 +53,32 @@ All the ports are exposed by defaut. Other monero binaries, like the `monero-wal
           - 18083:18083
 ```
 
-## Standalone usage
+## Standalone usage with monerod
 
 ```
-ID=$(docker create -p 18083:18083\
-    --name monero-wallet-rpc\
-    --env MONEROD_ADDRESS=monerod:18081\
-    -v ~/data_dir:/wallets
-    ghcr.io/farcaster-project/containers/monero-wallet-rpc:latest)
+docker volume create --name monero-wallet-data
 
-docker start $ID
+docker create -p 18081:18081\
+    --name monerod\
+    --env NETWORK=regtest\
+    --env MONEROD_RPC_PORT=18081\
+    --env OFFLINE=--offline\
+    --env DIFFICULTY=1\
+    ghcr.io/farcaster-project/containers/monerod:latest
+
+docker create -p 18083:18083\
+    --name monero-wallet-rpc\
+    --link monerod\
+    --env MONEROD_ADDRESS=monerod:18081\
+    -v monero-wallet-data:/wallets\
+    ghcr.io/farcaster-project/containers/monero-wallet-rpc:latest
+
+docker start monerod
+docker start monero-wallet-rpc
+
 ...
-docker kill $ID
-docker container rm $ID
+
+docker kill monerod monero-wallet-rpc
+docker container rm monerod monero-wallet-rpc
+docker volume rm monero-wallet-data
 ```

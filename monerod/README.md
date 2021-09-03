@@ -4,7 +4,7 @@
 Build the image against `ubuntu:20.04` with
 
 ```
-docker build --build-arg VRS=v0.17.2.3 -t ...:latest .
+docker build --build-arg VRS=v0.17.2.3 -t monerod:latest .
 ```
 
 Available `build-arg`:
@@ -15,13 +15,13 @@ Create a container with
 
 ```
 docker create -p 18081:18081\
+    --name monerod\
     --env NETWORK=regtest\
     --env MONEROD_RPC_PORT=18081\
-    --name monerod\
-    ...:latest
+    --env OFFLINE=--offline\
+    --env DIFFICULTY=1\
+    monerod:latest
 ```
-
-docker create --name monerod -p 18081:18081 --env NETWORK=regtest --env MONEROD_RPC_PORT=18081 -v /home/drgrid/containers/data_dir:/wallets monero-test:latest
 
 Available environment variables:
 
