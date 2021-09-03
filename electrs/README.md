@@ -4,7 +4,7 @@
 Build the image against `ubuntu:20.04` with
 
 ```
-docker build --build-arg VRS=v0.8.11 -t ...:latest .
+docker build --build-arg VRS=v0.8.11 -t electrs:latest .
 ```
 
 Available `build-arg`:
@@ -18,11 +18,11 @@ docker create -p 50001:50001\
     --env DAEMON_RPC_ADDR=...\
     --env NETWORK=regtest\
     --env ELECTRUM_RPC_PORT=50001\
-	--name electrs\
-    ...:latest
+    --name electrs\
+    electrs:latest
 ```
 
-The bitcoin datadir is expected to be in the /data volume and can be accessed by addtionally passing for example `-v /path/to/host/folder:data` to `docker create`. Additionally, to access bitcoind's rpc running in another container, pass in a `--link` argument with the name of the bitcoind container.
+The bitcoin datadir is expected to be in the /data volume and can be accessed by addtionally passing for example `-v /path/to/host/folder:data` to `docker create`or `--volumes-from bitcoind`. Additionally, to access bitcoind's rpc running in another container, pass in a `--link` argument with the name of the bitcoind container.
 
 Available environment variables:
 
@@ -34,18 +34,34 @@ RPC is binded to `0.0.0.0` and accept connection from everywhere.
 
 All the ports are exposed by defaut.
 
-## Standalone usage
+## Standalone usage with bitcoin-core image
 
 ```
-ID=$(docker create -p 50001:50001\
-    --env DAEMON_RPC_ADDR=bitcoin:18443\
+docker volume create --name bitcoind-data
+
+docker create -p 18443:18443\
+    --name bitcoind\
+    --env NETWORK=regtest\
+    --env RPC_PORT=18443\
+    --env FALLBACKFEE=0.00001\
+    -v bitcoind-data:/data\
+    ghcr.io/farcaster-project/containers/bitcoin-core:latest
+
+docker create -p 50001:50001\
+    --name electrs\
+    --env DAEMON_RPC_ADDR=bitcoind:18443\
     --env NETWORK=regtest\
     --env ELECTRUM_RPC_PORT=50001\
-    -v ~/data_dir:/data\
-    ghcr.io/farcaster-project/containers/electrs:latest)
+    --volumes-from bitcoind\
+    --link bitcoind\
+    ghcr.io/farcaster-project/containers/electrs:latest
 
-docker start $ID
+docker start bitcoind
+docker start electrs
+
 ...
-docker kill $ID
-docker container rm $ID
+
+docker kill bitcoind electrs
+docker container rm bitcoind electrs
+docker volume rm bitcoind-data
 ```
