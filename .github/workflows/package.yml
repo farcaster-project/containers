@@ -41,3 +41,29 @@ jobs:
       run:  |
           docker push ghcr.io/farcaster-project/containers/bitcoin-core:$VERSION
           docker push ghcr.io/farcaster-project/containers/bitcoin-core:latest
+
+  electrs:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Login to GitHub Container Registry
+      uses: docker/login-action@v1
+      with:
+        registry: ghcr.io
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Setup VERSION
+      run: |
+          export VERSION=$(cat electrs/VERSION)
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+
+    - name: Docker build
+      run: docker build --build-arg VRS=v${VERSION} -f $GITHUB_WORKSPACE/electrs/Dockerfile -t ghcr.io/farcaster-project/containers/electrs:latest -t ghcr.io/farcaster-project/containers/electrs:${VERSION} $GITHUB_WORKSPACE/electrs
+
+    - name: Docker push to GitHub Packages
+      run:  |
+          docker push ghcr.io/farcaster-project/containers/electrs:$VERSION
+          docker push ghcr.io/farcaster-project/containers/electrs:latest
