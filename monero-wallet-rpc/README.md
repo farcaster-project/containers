@@ -17,12 +17,9 @@ Create a container with
 docker create -p 18083:18083\
     --name monero-wallet-rpc\
     --env MONEROD_ADDRESS=monerod:18081\
-    -v /path/to/wallets:/wallets\
     --link monerod\
     monero-wallet-rpc:latest
 ```
-
-The wallet data dir is in the `/wallets` volume.
 
 Available environment variables:
 
@@ -56,8 +53,6 @@ All the ports are exposed by defaut. Other monero binaries, like the `monero-wal
 ## Standalone usage with monerod
 
 ```
-docker volume create --name monero-wallet-data
-
 docker create -p 18081:18081\
     --name monerod\
     --env NETWORK=regtest\
@@ -70,7 +65,6 @@ docker create -p 18083:18083\
     --name monero-wallet-rpc\
     --link monerod\
     --env MONEROD_ADDRESS=monerod:18081\
-    -v monero-wallet-data:/wallets\
     ghcr.io/farcaster-project/containers/monero-wallet-rpc:latest
 
 docker start monerod
@@ -80,5 +74,4 @@ docker start monero-wallet-rpc
 
 docker kill monerod monero-wallet-rpc
 docker container rm monerod monero-wallet-rpc
-docker volume rm monero-wallet-data
 ```
