@@ -15,14 +15,14 @@ Create a container with
 
 ```
 docker create -p 50001:50001\
-    --env DAEMON_RPC_ADDR=...\
+    --env DAEMON_RPC_ADDR=bitcoind:18443\
     --env NETWORK=regtest\
     --env ELECTRUM_RPC_PORT=50001\
     --name electrs\
     electrs:latest
 ```
 
-The bitcoin datadir is expected to be in the /data volume and can be accessed by addtionally passing for example `-v /path/to/host/folder:data` to `docker create`or `--volumes-from bitcoind`. Additionally, to access bitcoind's rpc running in another container, pass in a `--link` argument with the name of the bitcoind container.
+The bitcoin _datadir_ is expected to be in the `/data` volume and can be accessed by addtionally passing for example `-v /path/to/host/folder:data` to `docker create` or `--volumes-from bitcoind`. Additionally, to access bitcoind's rpc running in another container, pass in a `--link <container>` argument with the name of the bitcoind container.
 
 Available environment variables:
 
@@ -37,6 +37,7 @@ All the ports are exposed by defaut.
 ## Standalone usage with bitcoin-core image
 
 ```
+docker pull ghcr.io/farcaster-project/containers/electrs:latest
 docker volume create --name bitcoind-data
 
 docker create -p 18443:18443\

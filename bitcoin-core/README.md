@@ -36,24 +36,37 @@ All the ports are exposed by defaut. `bitcoin-cli` is also installed.
 
 ## GitHub Action usage
 
+You can run the job on the `rust` image and add services such as `bitcoind` that share a named volume `bitcoind-data` mounted on `/data`:
+
 ```yaml
+  job:
+    runs-on: ubuntu-latest
+    container:
+      image: rust:latest
+      volumes:
+        - bitcoind-data:/data
+
     services:
-      bitcoin-core:
+      bitcoind:
         image: ghcr.io/farcaster-project/containers/bitcoin-core
         env:
           NETWORK: regtest
           RPC_PORT: 18443
           FALLBACKFEE: "0.00001"
-        options: -v ~/data_dir:/data
+        volumes:
+          - bitcoind-data:/data
         ports:
           - 18443:18443
 ```
 
 ## Standalone usage
 
+Pull the latest image, create a named volume, and finally create the container.
+
 ```
 docker pull ghcr.io/farcaster-project/containers/bitcoin-core:latest
 docker volume create --name bitcoind-data
+
 ID=$(docker create -p 18443:18443\
     --name bitcoind\
     --env NETWORK=regtest\
@@ -63,7 +76,9 @@ ID=$(docker create -p 18443:18443\
     ghcr.io/farcaster-project/containers/bitcoin-core:latest)
 
 docker start $ID
+
 ...
+
 docker kill $ID
 docker container rm $ID
 docker volume rm bitcoind-data
