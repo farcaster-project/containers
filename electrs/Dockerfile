@@ -1,7 +1,7 @@
 FROM rust:latest AS install
 
 ARG VRS
-ENV VERSION=${VRS:-v0.8.11}
+ENV VERSION=${VRS:-v0.9.3}
 RUN echo $VERSION
 
 RUN apt update && apt install -y clang cmake

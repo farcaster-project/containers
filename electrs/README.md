@@ -9,7 +9,7 @@ docker build --build-arg VRS=v0.8.11 -t electrs:latest .
 
 Available `build-arg`:
 
-- **VRS**: electrs version to install, default *v0.8.11*
+- **VRS**: electrs version to install, default *v0.9.3*
 
 Create a container with
 
