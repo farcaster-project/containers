@@ -25,7 +25,7 @@ The bitcoin _datadir_ is expected to be in the `/data` volume and can be accesse
 
 Available environment variables:
 
-- **NETWORK**: a flag intended for the network, but this can be used more broadly as it is directly passed to `electrs` with a prepended `-`
+- **NETWORK**: a flag intended for the network, but this can be used more broadly as it is directly passed to `electrs`
 - **DAEMON_RPC_ADDR**: the address of the bitcoin daemon rpc
 - **ELECTRUM_RPC_PORT**: the port the electrs server is listening on
 

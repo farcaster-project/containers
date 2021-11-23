@@ -16,7 +16,8 @@ FROM ubuntu:20.04
 
 COPY --from=install /electrs/target/release/electrs /usr/bin/electrs
 
-EXPOSE 3002 60401 50001
+EXPOSE 50001 60001 60401 60601
+EXPOSE 4224 14224 24224 34224
 
 VOLUME /data
 
