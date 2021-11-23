@@ -1,5 +1,4 @@
-`monero-wallet-rpc` container
-===
+# `monero-wallet-rpc` container
 
 Build the image against `ubuntu:20.04` with
 
@@ -9,7 +8,7 @@ docker build --build-arg VRS=v0.17.2.3 -t monero-wallet-rpc:latest .
 
 Available `build-arg`:
 
-- **VRS**: monero-wallet-rpc version to install, default *0.17.2.3*
+- **VRS**: monero-wallet-rpc version to install, default _0.17.2.3_
 
 Create a container with
 
@@ -32,22 +31,22 @@ All the ports are exposed by defaut. Other monero binaries, like the `monero-wal
 ## GitHub Action usage
 
 ```yaml
-    services:
-      monerod:
-        image: ghcr.io/farcaster-project/containers/monerod
-        env:
-          NETWORK: regtest
-          MONEROD_RPC_PORT: 18081
-          OFFLINE: --offline
-          DIFFICULTY: 1
-        ports:
-          - 18081:18081
-      monero-wallet-rpc:
-        image: ghcr.io/farcaster-project/containers/monero-wallet-rpc
-        env:
-          MONEROD_RPC_PORT: monerod:18081
-        ports:
-          - 18083:18083
+services:
+  monerod:
+    image: ghcr.io/farcaster-project/containers/monerod
+    env:
+      NETWORK: regtest
+      MONEROD_RPC_PORT: 18081
+      OFFLINE: --offline
+      DIFFICULTY: 1
+    ports:
+      - 18081:18081
+  monero-wallet-rpc:
+    image: ghcr.io/farcaster-project/containers/monero-wallet-rpc
+    env:
+      MONEROD_RPC_PORT: monerod:18081
+    ports:
+      - 18083:18083
 ```
 
 ## Standalone usage with monerod

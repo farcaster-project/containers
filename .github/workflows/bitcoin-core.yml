@@ -1,0 +1,36 @@
+name: Bitcoin Core
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'bitcoin-core/Dockerfile'
+      - 'bitcoin-core/VERSION'
+
+jobs:
+  bitcoin-core:
+    name: Build
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Login to GitHub Container Registry
+      uses: docker/login-action@v1
+      with:
+        registry: ghcr.io
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Setup VERSION
+      run: |
+          export VERSION=$(cat bitcoin-core/VERSION)
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+
+    - name: Docker build
+      run: docker build --build-arg VRS=${VERSION} -f $GITHUB_WORKSPACE/bitcoin-core/Dockerfile -t ghcr.io/farcaster-project/containers/bitcoin-core:latest -t ghcr.io/farcaster-project/containers/bitcoin-core:${VERSION} $GITHUB_WORKSPACE/bitcoin-core
+
+    - name: Docker push to GitHub Packages
+      run:  |
+          docker push ghcr.io/farcaster-project/containers/bitcoin-core:$VERSION
+          docker push ghcr.io/farcaster-project/containers/bitcoin-core:latest

@@ -1,0 +1,37 @@
+name: Monero Wallet RPC
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'monero-wallet-rpc/Dockerfile'
+      - 'monero-wallet-rpc/SHASUM'
+      - 'monero-wallet-rpc/VERSION'
+
+jobs:
+  monero-wallet-rpc:
+    name: Build
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Login to GitHub Container Registry
+      uses: docker/login-action@v1
+      with:
+        registry: ghcr.io
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Setup VERSION
+      run: |
+          export VERSION=$(cat monero-wallet-rpc/VERSION)
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+
+    - name: Docker build
+      run: docker build --build-arg VRS=v${VERSION} -f $GITHUB_WORKSPACE/monero-wallet-rpc/Dockerfile -t ghcr.io/farcaster-project/containers/monero-wallet-rpc:latest -t ghcr.io/farcaster-project/containers/monero-wallet-rpc:${VERSION} $GITHUB_WORKSPACE/monero-wallet-rpc
+
+    - name: Docker push to GitHub Packages
+      run:  |
+          docker push ghcr.io/farcaster-project/containers/monero-wallet-rpc:$VERSION
+          docker push ghcr.io/farcaster-project/containers/monero-wallet-rpc:latest
