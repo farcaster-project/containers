@@ -22,4 +22,3 @@ COPY --from=install /usr/bin/monero* /usr/bin/
 EXPOSE 18083
 
 CMD ["sh", "-c", "/usr/bin/monero-wallet-rpc --disable-rpc-login --wallet-dir wallets --daemon-host $MONEROD_ADDRESS --rpc-bind-ip 0.0.0.0 --rpc-bind-port 18083 --confirm-external-bind"]
-

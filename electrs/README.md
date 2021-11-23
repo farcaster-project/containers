@@ -1,5 +1,4 @@
-`electrs` container
-===
+# `electrs` container
 
 Build the image against `ubuntu:20.04` with
 
@@ -9,7 +8,7 @@ docker build --build-arg VRS=v0.9.3 -t electrs:latest .
 
 Available `build-arg`:
 
-- **VRS**: electrs version to install, default *v0.9.3*
+- **VRS**: electrs version to install, default _v0.9.3_
 
 Create a container with
 

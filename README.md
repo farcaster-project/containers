@@ -1,5 +1,4 @@
-Containers
-===
+# Containers
 
 A list of Docker images built for supporting Farcaster stack integration tests.
 

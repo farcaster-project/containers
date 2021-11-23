@@ -1,5 +1,4 @@
-`bitcoin-core` container
-===
+# `bitcoin-core` container
 
 :warning: This image only works for version `22.0+` of Bitcoin Core!
 
@@ -11,7 +10,7 @@ docker build --build-arg VRS=22.0 -t bitcoind:latest .
 
 Available `build-arg`:
 
-- **VRS**: bitcoin-core version to install, default *22.0*
+- **VRS**: bitcoin-core version to install, default _22.0_
 
 Create a container with
 
