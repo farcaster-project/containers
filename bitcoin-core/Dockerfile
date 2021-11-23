@@ -25,7 +25,7 @@ FROM ubuntu:20.04
 COPY --from=install /usr/bin/bitcoind /usr/bin/bitcoind
 COPY --from=install /usr/bin/bitcoin-cli /usr/bin/bitcoin-cli
 
-EXPOSE 8332 8333 18332 18333 18443 18444
+EXPOSE 8332 8333 18332 18333 18443 18444 38332 38333
 
 VOLUME /data
 

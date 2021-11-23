@@ -19,6 +19,6 @@ FROM ubuntu:20.04
 COPY --from=install /usr/bin/monero* /usr/bin/
 
 # monero-wallet-rpc port
-EXPOSE 18083
+EXPOSE 18083 28083 38083
 
 CMD ["sh", "-c", "/usr/bin/monero-wallet-rpc --disable-rpc-login --wallet-dir wallets --daemon-host $MONEROD_ADDRESS --rpc-bind-ip 0.0.0.0 --rpc-bind-port 18083 --confirm-external-bind"]
