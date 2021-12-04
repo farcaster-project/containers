@@ -23,6 +23,7 @@ docker create -p 18083:18083\
 Available environment variables:
 
 - **MONEROD_ADDRESS**: the address of the monero daemon to use
+- **WALLET_RPC_PORT**: the port to use for the wallet RPC (default 18083)
 
 RPC is binded to `0.0.0.0` and accepts connections from everywhere.
 

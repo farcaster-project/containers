@@ -2,6 +2,7 @@ FROM ubuntu:20.04 AS install
 
 ARG VRS
 ENV VERSION=${VRS:-v0.17.2.3}
+ENV WALLET_RPC_PORT=${WALLET_RPC_PORT:-18083}
 RUN echo $VERSION
 
 RUN apt update && apt install -y wget
@@ -21,4 +22,4 @@ COPY --from=install /usr/bin/monero* /usr/bin/
 # monero-wallet-rpc port
 EXPOSE 18083 28083 38083
 
-CMD ["sh", "-c", "/usr/bin/monero-wallet-rpc --disable-rpc-login --wallet-dir wallets --daemon-host $MONEROD_ADDRESS --rpc-bind-ip 0.0.0.0 --rpc-bind-port 18083 --confirm-external-bind"]
+CMD ["sh", "-c", "/usr/bin/monero-wallet-rpc --disable-rpc-login --wallet-dir wallets --daemon-host $MONEROD_ADDRESS --rpc-bind-ip 0.0.0.0 --rpc-bind-port $WALLET_RPC_PORT --confirm-external-bind"]
