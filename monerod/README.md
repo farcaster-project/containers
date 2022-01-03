@@ -13,7 +13,7 @@ Available `build-arg`:
 Create a container with
 
 ```
-docker create -p 18081:18081\
+docker create -p 18081:18081 -p 18082:18082\
     --name monerod\
     --env NETWORK=regtest\
     --env MONEROD_RPC_PORT=18081\
@@ -46,12 +46,13 @@ services:
       DIFFICULTY: 1
     ports:
       - 18081:18081
+      - 18082:18082
 ```
 
 ## Standalone usage
 
 ```
-ID=$(docker create -p 18081:18081\
+ID=$(docker create -p 18081:18081 -p 18082:18082\
     --name monerod\
     --env NETWORK=regtest\
     --env MONEROD_RPC_PORT=18081\

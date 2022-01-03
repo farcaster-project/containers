@@ -22,5 +22,7 @@ COPY --from=install /usr/bin/monero* /usr/bin/
 EXPOSE 18080 28080 38080
 # monerd default rpc ports (mainnet testnet stagenet)
 EXPOSE 18081 28081 38081
+# monerod default zmq ports (mainnet testnet stagenet)
+EXPOSE 18082 28082 38082
 
-CMD ["sh", "-c", "/usr/bin/monerod --$NETWORK --p2p-bind-ip 0.0.0.0 --rpc-bind-ip 0.0.0.0 --rpc-bind-port $MONEROD_RPC_PORT --confirm-external-bind --non-interactive $OFFLINE --fixed-difficulty $DIFFICULTY"]
+CMD ["sh", "-c", "/usr/bin/monerod --$NETWORK --p2p-bind-ip 0.0.0.0 --rpc-bind-ip 0.0.0.0 --rpc-bind-port $MONEROD_RPC_PORT --zmq-rpc-bind-ip 0.0.0.0 --confirm-external-bind --non-interactive $OFFLINE --fixed-difficulty $DIFFICULTY"]
