@@ -1,4 +1,4 @@
-# `monero-lws-daemon` container
+# `monero-lws` container
 
 Build the image against `ubuntu:20.04` with
 
@@ -38,7 +38,7 @@ docker create -p 38084:38084\
     --link monerod\
     --env MONEROD_ADDRESS=monerod:18082\
     --env NETWORK=main\
-    ghcr.io/farcaster-project/containers/monero-lws-daemon:latest
+    ghcr.io/farcaster-project/containers/monero-lws:latest
 
 docker start monerod
 docker start monero-lws-daemon
