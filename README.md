@@ -8,6 +8,7 @@ A list of Docker images built for supporting **@farcaster-project** integration 
 - **electrs**: [`electrs` container](./electrs/)
 - **monerod**: [`monerod` container](./monerod/)
 - **monero-wallet-rpc**: [`monero-wallet-rpc` container](./monero-wallet-rpc/)
+- **monero-lws**: [`monero-lws` container](./monero-lws/)
 
 ## Licensing
 
