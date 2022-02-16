@@ -3,18 +3,18 @@
 Build the image against `ubuntu:20.04` with
 
 ```
-docker build -t monero-lws-daemon:latest .
+docker build -t monero-lws:latest .
 ```
 
 Create a container with
 
 ```
 docker create -p 38084:38084\
-    --name monero-lws-daemon\
+    --name monero-lws\
     --env MONEROD_ADDRESS=monerod:18082\
     --env NETWORK=main\
     --link monerod\
-    monero-lws-daemon:latest
+    monero-lws:latest
 ```
 
 Available environment variables:
@@ -34,17 +34,17 @@ docker create -p 18081:18081\
     ghcr.io/farcaster-project/containers/monerod:latest
 
 docker create -p 38084:38084\
-    --name monero-lws-daemon\
+    --name monero-lws\
     --link monerod\
     --env MONEROD_ADDRESS=monerod:18082\
     --env NETWORK=main\
     ghcr.io/farcaster-project/containers/monero-lws:latest
 
 docker start monerod
-docker start monero-lws-daemon
+docker start monero-lws
 
 ...
 
-docker kill monerod monero-lws-daemon
-docker container rm monerod monero-lws-daemon
+docker kill monerod monero-lws
+docker container rm monerod monero-lws
 ```
