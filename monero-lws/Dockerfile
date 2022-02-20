@@ -51,6 +51,7 @@ FROM ubuntu:20.04
 
 COPY --from=install /usr/local/bin/monero* /usr/bin/
 
+# install shared libraries
 RUN apt update
 RUN DEBIAN_FRONTEND=noninteractive apt-get --no-install-recommends --yes install \
     libboost-chrono-dev \
