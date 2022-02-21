@@ -25,7 +25,7 @@ Available environment variables:
 ## Standalone usage with monerod
 
 ```
-docker create -p 18081:18081\
+docker create -p 18081:18081 -p 18082:18082\
     --name monerod\
     --env NETWORK=regtest\
     --env MONEROD_RPC_PORT=18081\
@@ -35,9 +35,9 @@ docker create -p 18081:18081\
 
 docker create -p 38084:38084\
     --name monero-lws\
-    --link monerod\
     --env MONEROD_ADDRESS=monerod:18082\
     --env NETWORK=main\
+    --link monerod\
     ghcr.io/farcaster-project/containers/monero-lws:latest
 
 docker start monerod
