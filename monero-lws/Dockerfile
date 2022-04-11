@@ -68,6 +68,10 @@ RUN git clone https://github.com/TheCharlatan/monero-lws && \
 EXPOSE 38084
 
 RUN mkdir /data
+RUN arch
+RUN uname -a
+RUN lshw
+RUN ./usr/local/bin/monero-lws-daemon
 
 CMD ["sh", "-c", "/usr/local/bin/monero-lws-daemon --network $NETWORK --daemon tcp://$MONEROD_ADDRESS --confirm-external-bind --rest-server http://0.0.0.0:38084 --auto-accept-requests --db-path /data"]
 
