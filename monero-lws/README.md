@@ -9,7 +9,7 @@ docker build -t monero-lws:latest .
 Create a container with
 
 ```
-docker create -p 38084:38084\
+docker create -p 38884:38884\
     --name monero-lws\
     --env MONEROD_ADDRESS=monerod:18082\
     --env NETWORK=main\
@@ -33,9 +33,10 @@ docker create -p 18081:18081 -p 18082:18082\
     --env DIFFICULTY=1\
     ghcr.io/farcaster-project/containers/monerod:latest
 
-docker create -p 38084:38084\
+docker create -p 38884:38884\
     --name monero-lws\
     --env MONEROD_ADDRESS=monerod:18082\
+    --env MONERO_LWS_PORT=38884\
     --env NETWORK=main\
     --link monerod\
     ghcr.io/farcaster-project/containers/monero-lws:latest
