@@ -48,22 +48,22 @@ RUN git clone https://github.com/TheCharlatan/monero-lws && \
 	make install
 
 # install shared libraries
-RUN apt update
-RUN DEBIAN_FRONTEND=noninteractive apt-get --no-install-recommends --yes install \
-    libboost-chrono-dev \
-    libboost-date-time-dev \
-    libboost-filesystem-dev  \
-    libboost-locale-dev \
-    libboost-program-options-dev \
-    libboost-regex-dev \
-    libboost-serialization-dev \
-    libboost-system-dev \
-    libboost-thread-dev \
-	libssl-dev \
-	libzmq3-dev \
-	libpgm-dev \
-	libunbound-dev \
-	libsodium-dev
+# RUN apt update
+# RUN DEBIAN_FRONTEND=noninteractive apt-get --no-install-recommends --yes install \
+#     libboost-chrono-dev \
+#     libboost-date-time-dev \
+#     libboost-filesystem-dev  \
+#     libboost-locale-dev \
+#     libboost-program-options-dev \
+#     libboost-regex-dev \
+#     libboost-serialization-dev \
+#     libboost-system-dev \
+#     libboost-thread-dev \
+# 	libssl-dev \
+# 	libzmq3-dev \
+# 	libpgm-dev \
+# 	libunbound-dev \
+# 	libsodium-dev
 
 EXPOSE 38084
 
