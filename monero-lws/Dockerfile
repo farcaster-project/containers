@@ -3,7 +3,6 @@ FROM ubuntu:20.04 AS install
 RUN apt update && apt install -y git
 RUN DEBIAN_FRONTEND=noninteractive apt-get --no-install-recommends --yes install \
     automake \
-    lshw \
     autotools-dev \
     bsdmainutils \
     build-essential \
