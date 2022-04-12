@@ -73,9 +73,6 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get --no-install-recommends --yes install
 EXPOSE 38884 18884
 
 RUN mkdir /data
-RUN arch
-RUN uname -a
-RUN lshw
 
 CMD ["sh", "-c", "/usr/bin/monero-lws-daemon --network $NETWORK --daemon tcp://$MONEROD_ADDRESS --confirm-external-bind --rest-server http://0.0.0.0:38084 --auto-accept-requests --db-path /data"]
 
