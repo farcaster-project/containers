@@ -41,7 +41,7 @@ RUN git clone https://github.com/monero-project/monero && \
 # build monero-lws
 RUN git clone https://github.com/TheCharlatan/monero-lws && \
 	cd ../monero-lws && \
-    git checkout auto_accept_requests && \
+    git checkout changes && \
 	mkdir build && cd build && \
     cmake -DMONERO_SOURCE_DIR=/monero -DMONERO_BUILD_DIR=/monero/build .. && \
 	make && \
