@@ -47,6 +47,7 @@ RUN git clone https://github.com/TheCharlatan/monero-lws && \
 	make && \
 	make install
 
+# separate deployment container
 FROM ubuntu:20.04
 
 COPY --from=install /usr/local/bin/monero* /usr/bin/
