@@ -1,6 +1,6 @@
-# `electrs` container
+# [`electrs`](https://github.com/romanz/electrs) image
 
-Build the default electrs version with
+Build the default electrs image with
 
 ```
 docker build -t electrs:latest .
@@ -8,9 +8,9 @@ docker build -t electrs:latest .
 
 Available `build-arg`:
 
-- **VRS**: electrs version to install, default _v0.9.6_
+- **VRS**: electrs version to install, default _v0.9.7_
 
-Create a container with
+Create a container from image with
 
 ```
 docker create -p 60401:60401\
@@ -33,7 +33,7 @@ Available environment variables:
 
 `electrum_rpc_addr` is generated with `0.0.0.0` and the given port `ELECTRUM_RPC_PORT`, you probably want to expose the chosen port outside the container with `-p`.
 
-## Standalone usage with `containers/bitcoin-core` image
+## Standalone usage with [`containers/bitcoin-core`](https://github.com/farcaster-project/containers/tree/main/bitcoin-core) image
 
 ```
 docker pull ghcr.io/farcaster-project/containers/bitcoin-core:latest
