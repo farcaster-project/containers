@@ -1,6 +1,6 @@
-# `electrs` container
+# [`electrs`](https://github.com/romanz/electrs) image
 
-Build the default electrs version with
+Build the default electrs image with
 
 ```
 docker build -t electrs:latest .
@@ -10,7 +10,7 @@ Available `build-arg`:
 
 - **VRS**: electrs version to install, default _v0.9.7_
 
-Create a container with
+Create a container from image with
 
 ```
 docker create -p 60401:60401\
