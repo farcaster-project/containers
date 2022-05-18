@@ -1,16 +1,16 @@
-# `bitcoin-core` container
+# [`bitcoin-core`](https://github.com/bitcoin/bitcoin) image
 
-:warning: This image only works for version `22.0+` of Bitcoin Core!
+> As of version `22.0+` Bitcoin Core changed the binaries verification process, making this Dockerfile invalid "as is" with prior versions.
 
-Build the image against `ubuntu:20.04` with
+Build the default bitcoin-core image with
 
 ```
-docker build --build-arg VRS=22.0 -t bitcoind:latest .
+docker build -t bitcoin-core:latest .
 ```
 
 Available `build-arg`:
 
-- **VRS**: bitcoin-core version to install, default _22.0_
+- **VRS**: bitcoin-core version to install, default _23.0_
 
 Create a container with
 
@@ -20,24 +20,24 @@ docker create -p 18443:18443\
     --env FALLBACKFEE=0.00001\
     --env RPC_PORT=18443
     --name bitcoind\
-    bitcoind:latest
+    bitcoin-core:latest
 ```
 
-The bitcoin datadir is in the /data volume and can be accessed by addtionally passing for example `-v /path/to/host/folder:data` to `docker create` or create a named volume with `docker volume create --name bitcoind-data` and use the flag `-v bitcoind-data:/data`.
+The bitcoin datadir is in the `/data` volume and can be accessed by addtionally passing for example `-v /path/to/host/folder:data` to `docker create` or create a named volume with `docker volume create --name bitcoind-data` and use the flag `-v bitcoind-data:/data`.
 
 Available environment variables:
 
 - **NETWORK**: a flag intended for the network, but this can be used more broadly as it is directly passed to `bitcoind` with a prepended `-`
-- **RPC_PORT**: the RPC port to bind
+- **RPC_PORT**: the port bitcoin-core server is listening on, usually 8332, 18332, and 18443
 - **FALLBACKFEE**: the fallbackfee parameter
 
-RPC is binded to `0.0.0.0` and accept connection from everywhere.
+RPC is binded to `0.0.0.0` to accept any connections, you probably want to expose the chosen port outside the container with `-p`.
 
-All the ports are exposed by defaut. `bitcoin-cli` is also installed.
+`bitcoin-cli` is available inside the image, run `docker exec -it {bitcoind} /bin/bash` and then `bitcoin-cli -chain={} -datadir=/data {-getinfo}`.
 
 ## GitHub Action usage
 
-You can run the job on the `rust` image and add services such as `bitcoind` that share a named volume `bitcoind-data` mounted on `/data`:
+You can run a job on your chosen image (here it's `rust`) and add a service (here named `bitcoin-core`) that share a named volume `bitcoind-data` mounted on `/data`:
 
 ```yaml
   job:
@@ -48,8 +48,8 @@ You can run the job on the `rust` image and add services such as `bitcoind` that
         - bitcoind-data:/data
 
     services:
-      bitcoind:
-        image: ghcr.io/farcaster-project/containers/bitcoin-core
+      bitcoin-core:
+        image: ghcr.io/farcaster-project/containers/bitcoin-core:latest
         env:
           NETWORK: regtest
           RPC_PORT: 18443
@@ -62,25 +62,26 @@ You can run the job on the `rust` image and add services such as `bitcoind` that
 
 ## Standalone usage
 
-Pull the latest image, create a named volume, and finally create the container.
+Pull the latest image, create a named volume, and finally create the container (here named `bitcoind`).
 
 ```
 docker pull ghcr.io/farcaster-project/containers/bitcoin-core:latest
-docker volume create --name bitcoind-data
+mkdir data
 
-ID=$(docker create -p 18443:18443\
+docker create -p 18443:18443\
     --name bitcoind\
     --env NETWORK=regtest\
     --env RPC_PORT=18443\
     --env FALLBACKFEE=0.00001\
-    -v bitcoind-data:/data\
-    ghcr.io/farcaster-project/containers/bitcoin-core:latest)
+    -v $(pwd)/data:/data\
+    ghcr.io/farcaster-project/containers/bitcoin-core:latest
 
-docker start $ID
+docker start bitcoind
+sudo cat data/regtest/.cookie
 
 ...
 
-docker kill $ID
-docker container rm $ID
-docker volume rm bitcoind-data
+docker kill bitcoind
+docker container rm bitcoind
+sudo rm -r ./data
 ```
