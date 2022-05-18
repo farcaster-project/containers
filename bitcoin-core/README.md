@@ -1,4 +1,4 @@
-# [`bitcoin-core](https://github.com/bitcoin/bitcoin)` image
+# [`bitcoin-core`](https://github.com/bitcoin/bitcoin) image
 
 > As of version `22.0+` Bitcoin Core changed the binaries verification process, making this Dockerfile invalid "as is" with prior versions.
 
