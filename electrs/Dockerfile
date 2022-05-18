@@ -12,7 +12,7 @@ WORKDIR /electrs
 
 RUN cargo build --release --bin electrs
 
-FROM ubuntu:20.04
+FROM debian:bullseye-slim
 
 COPY --from=install /electrs/target/release/electrs /usr/bin/electrs
 
