@@ -33,7 +33,7 @@ Available environment variables:
 
 `electrum_rpc_addr` is generated with `0.0.0.0` and the given port `ELECTRUM_RPC_PORT`, you probably want to expose the chosen port outside the container with `-p`.
 
-## Standalone usage with `containers/bitcoin-core` image
+## Standalone usage with [`containers/bitcoin-core`](https://github.com/farcaster-project/containers/tree/main/bitcoin-core) image
 
 ```
 docker pull ghcr.io/farcaster-project/containers/bitcoin-core:latest
