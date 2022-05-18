@@ -1,22 +1,23 @@
 # `electrs` container
 
-Build the image against `ubuntu:20.04` with
+Build the default electrs version with
 
 ```
-docker build --build-arg VRS=v0.9.3 -t electrs:latest .
+docker build -t electrs:latest .
 ```
 
 Available `build-arg`:
 
-- **VRS**: electrs version to install, default _v0.9.3_
+- **VRS**: electrs version to install, default _v0.9.4_
 
 Create a container with
 
 ```
-docker create -p 50001:50001\
+docker create -p 60401:60401\
     --env DAEMON_RPC_ADDR=bitcoind:18443\
+    --env DAEMON_P2P_ADDR=bitcoind:18444\
     --env NETWORK=regtest\
-    --env ELECTRUM_RPC_PORT=50001\
+    --env ELECTRUM_RPC_PORT=60401\
     --name electrs\
     electrs:latest
 ```
@@ -26,16 +27,16 @@ The bitcoin _datadir_ is expected to be in the `/data` volume and can be accesse
 Available environment variables:
 
 - **NETWORK**: a flag intended for the network, but this can be used more broadly as it is directly passed to `electrs`
-- **DAEMON_RPC_ADDR**: the address of the bitcoin daemon rpc
-- **ELECTRUM_RPC_PORT**: the port the electrs server is listening on
+- **DAEMON_RPC_ADDR**: the listening RPC address of bitcoind, usually 8332, 18332, and 18443
+- **DAEMON_P2P_ADDR**: the listening P2P address of bitcoind, usually 8333, 18333, and 18444
+- **ELECTRUM_RPC_PORT**: the port the electrs server is listening on, usually 50001, 60001, and 60401
 
-RPC is binded to `0.0.0.0` and accept connection from everywhere.
+`electrum_rpc_addr` is generated with `0.0.0.0` and the given port `ELECTRUM_RPC_PORT`, you probably want to expose the chosen port outside the container with `-p`.
 
-All the ports are exposed by defaut.
-
-## Standalone usage with bitcoin-core image
+## Standalone usage with `containers/bitcoin-core` image
 
 ```
+docker pull ghcr.io/farcaster-project/containers/bitcoin-core:latest
 docker pull ghcr.io/farcaster-project/containers/electrs:latest
 docker volume create --name bitcoind-data
 
@@ -47,11 +48,12 @@ docker create -p 18443:18443\
     -v bitcoind-data:/data\
     ghcr.io/farcaster-project/containers/bitcoin-core:latest
 
-docker create -p 50001:50001\
+docker create -p 60401:60401\
     --name electrs\
     --env DAEMON_RPC_ADDR=bitcoind:18443\
+    --env DAEMON_P2P_ADDR=bitcoind:18444\
     --env NETWORK=regtest\
-    --env ELECTRUM_RPC_PORT=50001\
+    --env ELECTRUM_RPC_PORT=60401\
     --volumes-from bitcoind\
     --link bitcoind\
     ghcr.io/farcaster-project/containers/electrs:latest

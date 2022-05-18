@@ -1,7 +1,7 @@
 FROM rust:latest AS install
 
 ARG VRS
-ENV VERSION=${VRS:-v0.9.3}
+ENV VERSION=${VRS:-v0.9.4}
 RUN echo $VERSION
 
 RUN apt update && apt install -y clang cmake
@@ -21,4 +21,4 @@ EXPOSE 4224 14224 24224 34224
 
 VOLUME /data
 
-CMD ["sh", "-c", "/usr/bin/electrs --network $NETWORK --daemon-dir /data --daemon-rpc-addr $DAEMON_RPC_ADDR --electrum-rpc-addr 0.0.0.0:$ELECTRUM_RPC_PORT"]
+CMD ["sh", "-c", "/usr/bin/electrs --network $NETWORK --daemon-dir /data --daemon-rpc-addr $DAEMON_RPC_ADDR --daemon-p2p-addr $DAEMON_P2P_ADDR --electrum-rpc-addr 0.0.0.0:$ELECTRUM_RPC_PORT"]
