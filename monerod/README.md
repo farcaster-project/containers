@@ -8,7 +8,7 @@ docker build -t monerod:latest .
 
 Available `build-arg`:
 
-- **VRS**: monerod version to install, default _0.17.3.0_
+- **VRS**: monerod version to install, default _0.17.3.2_
 
 Create a container with
 
@@ -55,6 +55,7 @@ services:
 ## Standalone usage
 
 ```
+docker pull ghcr.io/farcaster-project/containers/monerod:latest
 docker create -p 18081:18081 -p 18082:18082\
     --name monerod\
     --env NETWORK=regtest\
