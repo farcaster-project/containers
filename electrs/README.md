@@ -16,8 +16,10 @@ Create a container with exposed ports for RPC connections (you need a `bitcoind`
 docker create -p 60401:60401\
     --env DAEMON_RPC_ADDR=bitcoind:18443\
     --env DAEMON_P2P_ADDR=bitcoind:18444\
+    --env ELECTRUM_RPC_PORT=60401\
     --env NETWORK=regtest\
     --name electrs\
+    --volumes-from bitcoind\
     --link bitcoind\
     electrs:0.9.7
 ```
@@ -29,12 +31,13 @@ Available environment variables:
 - **NETWORK**: a flag intended for the network, but this can be used more broadly as it is directly passed to `electrs`
 - **DAEMON_RPC_ADDR**: the listening RPC address as `[host]:[port]` of bitcoind, usually **8332**, **18332**, or **18443**
 - **DAEMON_P2P_ADDR**: the listening P2P address as `[host]:[port]` of bitcoind, usually **8333**, **18333**, or **18444**
+- **ELECTRUM_RPC_PORT**: electrs listening RPC port, default ports are **50001**, **60001**, and **60401**
 
 Available listening container ports:
 
-- **electrum rpc**: the port the electrs server is listening on, **50001**, **60001**, or **60401**
+- **electrum rpc**: the port the electrs server is listening on, the argument chosen in **ELECTRUM_RPC_PORT**
 
-`electrum_rpc_addr` is generated with `0.0.0.0` and the default electrum port, you probably want to expose the chosen port outside the container with `-p [hostPort]:[containerPort]`.
+`electrum_rpc_addr` is generated with `0.0.0.0` and the chosen electrum port **ELECTRUM_RPC_PORT**, you probably want to expose the chosen port outside the container with `-p [hostPort]:[containerPort]`.
 
 ## Standalone usage with [`containers/bitcoin-core`](https://github.com/farcaster-project/containers/tree/main/bitcoin-core) image
 
@@ -53,6 +56,7 @@ docker create -p 60401:60401\
     --name electrs\
     --env DAEMON_RPC_ADDR=bitcoind:18443\
     --env DAEMON_P2P_ADDR=bitcoind:18444\
+    --env ELECTRUM_RPC_PORT=60401\
     --env NETWORK=regtest\
     --volumes-from bitcoind\
     --link bitcoind\
