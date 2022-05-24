@@ -25,10 +25,13 @@ FROM debian:bullseye-slim
 COPY --from=install /usr/bin/bitcoind /usr/bin/bitcoind
 COPY --from=install /usr/bin/bitcoin-cli /usr/bin/bitcoin-cli
 
-EXPOSE 8332 8333 18332 18333 18443 18444 38332 38333
+# Default RPC ports: bitcoin, testnet, regtest, signet
+EXPOSE 8332 18332 18443 38332
+# Default P2P ports: bitcoin, testnet, regtest, signet
+EXPOSE 8333 18333 18444 38333
 
 VOLUME /data
 
 LABEL "org.opencontainers.image.description"="A ready to use bitcoin-core image suited for CI and tests."
 
-CMD ["sh", "-c", "/usr/bin/bitcoind -$NETWORK -server -rest -rpcport=$RPC_PORT -rpcbind=0.0.0.0 -rpcallowip=0.0.0.0/0 -fallbackfee=$FALLBACKFEE -datadir=/data"]
+CMD ["sh", "-c", "/usr/bin/bitcoind -$NETWORK -server -rest -port=$P2P_PORT -rpcport=$RPC_PORT -rpcbind=0.0.0.0 -rpcallowip=0.0.0.0/0 -fallbackfee=$FALLBACKFEE -datadir=/data"]

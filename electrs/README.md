@@ -27,9 +27,9 @@ The bitcoin _datadir_ is expected to be in the `/data` volume and can be accesse
 Available environment variables:
 
 - **NETWORK**: a flag intended for the network, but this can be used more broadly as it is directly passed to `electrs`
-- **DAEMON_RPC_ADDR**: the listening RPC address of bitcoind, usually 8332, 18332, and 18443
-- **DAEMON_P2P_ADDR**: the listening P2P address of bitcoind, usually 8333, 18333, and 18444
-- **ELECTRUM_RPC_PORT**: the port the electrs server is listening on, usually 50001, 60001, and 60401
+- **DAEMON_RPC_ADDR**: the listening RPC address of bitcoind, usually **8332**, **18332**, and **18443**
+- **DAEMON_P2P_ADDR**: the listening P2P address of bitcoind, usually **8333**, **18333**, and **18444**
+- **ELECTRUM_RPC_PORT**: the port the electrs server is listening on, usually **50001**, **60001**, and **60401**
 
 `electrum_rpc_addr` is generated with `0.0.0.0` and the given port `ELECTRUM_RPC_PORT`, you probably want to expose the chosen port outside the container with `-p`.
 
@@ -40,10 +40,11 @@ docker pull ghcr.io/farcaster-project/containers/bitcoin-core:23.0
 docker pull ghcr.io/farcaster-project/containers/electrs:0.9.7
 docker volume create --name bitcoind-data
 
-docker create -p 18443:18443\
+docker create\
     --name bitcoind\
     --env NETWORK=regtest\
     --env RPC_PORT=18443\
+    --env P2P_PORT=18444\
     --env FALLBACKFEE=0.00001\
     -v bitcoind-data:/data\
     ghcr.io/farcaster-project/containers/bitcoin-core:23.0

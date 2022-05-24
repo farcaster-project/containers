@@ -18,7 +18,7 @@ FROM debian:bullseye-slim
 
 COPY --from=install /usr/bin/monero-wallet* /usr/bin/
 
-# Default monero wallet-rpc ports (mainnet testnet stagenet), regtest should use same as mainnet
+# Default monero wallet-rpc ports: monero, testnet, stagenet; regtest should use same as mainnet
 EXPOSE 18083 28083 38083
 
 LABEL "org.opencontainers.image.description"="A ready to use monero wallet-rpc image suited for CI and tests."

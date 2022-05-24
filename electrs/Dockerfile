@@ -16,7 +16,9 @@ FROM debian:bullseye-slim
 
 COPY --from=install /electrs/target/release/electrs /usr/bin/electrs
 
+# Default electrum ports: bitcoin, testnet, regtest, signet
 EXPOSE 50001 60001 60401 60601
+# Default electrs monitoring ports: bitcoin, testnet, regtest, signet
 EXPOSE 4224 14224 24224 34224
 
 VOLUME /data

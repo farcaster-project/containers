@@ -26,8 +26,8 @@ docker create -p 18081:18081 -p 18082:18082\
 Available environment variables:
 
 - **NETWORK**: a flag intended for the network, but this can be used more broadly as it is directly passed to `monerod` with a prepended `--`
-- **MONEROD_RPC_PORT**: the port monerod RPC is listening on, usually 18081, 28081, and 38081
-- **MONEROD_ZMQ_PORT**: the port monerod 0MQ is listening on, usually 18082, 28082, and 38082
+- **MONEROD_RPC_PORT**: the port monerod RPC is listening on, usually **18081**, **28081**, and **38081**
+- **MONEROD_ZMQ_PORT**: the port monerod 0MQ is listening on, usually **18082**, **28082**, and **38082**
 - **OFFLINE**: a flag intended for usage with a regtest network. Needs to have `--` preprended, e.g. `--offline`
 - **DIFFICULTY**: a flag intended for usage with a regtest network. Sets a fixed difficulty for generating blocks. For non-regtest set this to `0`, for regtest `1` is the recommended value.
 
