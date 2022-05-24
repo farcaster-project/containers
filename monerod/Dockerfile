@@ -18,13 +18,13 @@ FROM debian:bullseye-slim
 
 COPY --from=install /usr/bin/monero* /usr/bin/
 
-# monerod default p2p ports: monero, testnet, stagenet
+# Monero default p2p ports: monero, testnet, stagenet
 EXPOSE 18080 28080 38080
-# monerd default rpc ports: monero, testnet, stagenet
+# Monero default rpc ports: monero, testnet, stagenet
 EXPOSE 18081 28081 38081
-# monerod default zmq ports: monero, testnet, stagenet
+# Monero default zmq ports: monero, testnet, stagenet
 EXPOSE 18082 28082 38082
 
 LABEL "org.opencontainers.image.description"="A ready to use monerod image suited for CI and tests."
 
-CMD ["sh", "-c", "/usr/bin/monerod --$NETWORK --p2p-bind-ip 0.0.0.0 --rpc-bind-ip 0.0.0.0 --rpc-bind-port $MONEROD_RPC_PORT --zmq-rpc-bind-ip 0.0.0.0 --zmq-rpc-bind-port $MONEROD_ZMQ_PORT --confirm-external-bind --non-interactive $OFFLINE --fixed-difficulty $DIFFICULTY"]
+CMD ["sh", "-c", "/usr/bin/monerod --$NETWORK --p2p-bind-ip 0.0.0.0 --rpc-bind-ip 0.0.0.0 --zmq-rpc-bind-ip 0.0.0.0 --confirm-external-bind --non-interactive $OFFLINE --fixed-difficulty $DIFFICULTY"]

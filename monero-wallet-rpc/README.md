@@ -10,26 +10,27 @@ Available `build-arg`:
 
 - **VRS**: monero-wallet-rpc version to install, default _0.17.3.2_
 
-Create for example a container that connects to **stagenet** run
+Create a container with exposed ports for RPC connections (you need a `monerod` container created to link with)
 
 ```
 docker create -p 38083:38083\
     --name monero-wallet-rpc\
-    --env MONERO_DAEMON_HOST=stagenet.melo.tools:38081\
-    --env WALLET_RPC_PORT=38083\
+    --env MONERO_DAEMON_ADDRESS=monerod:38081\
+    --link monerod\
     monero-wallet-rpc:0.17.3.2
 ```
 
 Available environment variables:
 
-- **MONERO_DAEMON_HOST**: the address of the monero daemon in format `{host}:{port}` to use as backend for the wallets
-- **WALLET_RPC_PORT**: the listening RPC address of wallet-rpc, usually **18083**, **28083**, and **38083**
+- **MONERO_DAEMON_ADDRESS**: the address of the monero daemon in format `{host}:{port}` to use as backend for the wallets
 
-Wallet RPC is binded to `0.0.0.0` and the given port `WALLET_RPC_PORT`, you probably want to expose the chosen port outside the container with `-p`.
+Available listening container ports:
+
+- **wallet rpc**: the listening RPC address of wallet-rpc, **18083**, **28083**, or **38083**; :warning: when running in **regtest** mode the default ports are the same as **mainnet**
+
+Wallet RPC is binded to `0.0.0.0` and the default port, you probably want to expose the chosen port outside the container with `-p [hostPort]:[containerPort]`.
 
 The `monero-wallet-cli` binary is also installed, you can use `docker run -it ghcr.io/farcaster-project/containers/monero-wallet-rpc:0.17.3.2 /bin/bash` to use it stand alone or `docker exec -it {monero-wallet-rcp} /bin/bash` to enter a running container.
-
-:warning: When running in **regtest** mode the default ports are the same as **mainnet**!
 
 ## GitHub Action usage
 
@@ -39,7 +40,6 @@ services:
     image: ghcr.io/farcaster-project/containers/monerod:0.17.3.2
     env:
       NETWORK: regtest
-      MONEROD_RPC_PORT: 18081
       OFFLINE: --offline
       DIFFICULTY: 1
     ports:
@@ -47,8 +47,7 @@ services:
   monero-wallet-rpc:
     image: ghcr.io/farcaster-project/containers/monero-wallet-rpc:0.17.3.2
     env:
-      MONERO_DAEMON_HOST: monerod:18081
-      WALLET_RPC_PORT: 18083
+      MONERO_DAEMON_ADDRESS: monerod:18081
     ports:
       - 18083:18083
 ```
@@ -59,11 +58,9 @@ services:
 docker pull ghcr.io/farcaster-project/containers/monerod:0.17.3.2
 docker pull ghcr.io/farcaster-project/containers/monero-wallet-rpc:0.17.3.2
 
-docker create -p 18081:18081 -p 18082:18082\
+docker create -p 18080:18080 -p 18081:18081 -p 18082:18082\
     --name monerod\
     --env NETWORK=regtest\
-    --env MONEROD_RPC_PORT=18081\
-    --env MONEROD_ZMQ_PORT=18082\
     --env OFFLINE=--offline\
     --env DIFFICULTY=1\
     ghcr.io/farcaster-project/containers/monerod:0.17.3.2
@@ -71,8 +68,7 @@ docker create -p 18081:18081 -p 18082:18082\
 docker create -p 18083:18083\
     --name monero-wallet-rpc\
     --link monerod\
-    --env MONERO_DAEMON_HOST=monerod:18081\
-    --env WALLET_RPC_PORT=18083\
+    --env MONERO_DAEMON_ADDRESS=monerod:18081\
     ghcr.io/farcaster-project/containers/monero-wallet-rpc:0.17.3.2
 
 docker start monerod

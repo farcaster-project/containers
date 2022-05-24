@@ -23,4 +23,4 @@ EXPOSE 18083 28083 38083
 
 LABEL "org.opencontainers.image.description"="A ready to use monero wallet-rpc image suited for CI and tests."
 
-CMD ["sh", "-c", "/usr/bin/monero-wallet-rpc --disable-rpc-login --wallet-dir wallets --daemon-host $MONERO_DAEMON_HOST --rpc-bind-ip 0.0.0.0 --rpc-bind-port $WALLET_RPC_PORT --confirm-external-bind --trusted-daemon"]
+CMD ["sh", "-c", "/usr/bin/monero-wallet-rpc --disable-rpc-login --wallet-dir wallets --daemon-address $MONERO_DAEMON_ADDRESS --rpc-bind-ip 0.0.0.0 --confirm-external-bind --trusted-daemon"]

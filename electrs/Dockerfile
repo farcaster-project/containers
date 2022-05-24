@@ -25,4 +25,4 @@ VOLUME /data
 
 LABEL "org.opencontainers.image.description"="A ready to use electrs image suited for CI and tests with containers/bitcoin-core."
 
-CMD ["sh", "-c", "/usr/bin/electrs --network $NETWORK --daemon-dir /data --daemon-rpc-addr $DAEMON_RPC_ADDR --daemon-p2p-addr $DAEMON_P2P_ADDR --electrum-rpc-addr 0.0.0.0:$ELECTRUM_RPC_PORT"]
+CMD ["sh", "-c", "/usr/bin/electrs --network $NETWORK --daemon-dir /data --daemon-rpc-addr $DAEMON_RPC_ADDR --daemon-p2p-addr $DAEMON_P2P_ADDR --electrum-rpc-addr 0.0.0.0"]

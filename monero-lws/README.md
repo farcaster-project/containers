@@ -8,12 +8,12 @@ Build monero-lws image with
 docker build -t monero-lws:latest .
 ```
 
-Create a container with (you need a `monerod` container created to link)
+Create a container with exposed ports for RPC connections (you need a `monerod` container created to link with)
 
 ```
-docker create -p 38884:38884\
+docker create -p 8443:8443\
     --name monero-lws\
-    --env MONEROD_ADDRESS=monerod:18082\
+    --env MONERO_DAEMON_ADDRESS=monerod:18082\
     --env NETWORK=main\
     --link monerod\
     monero-lws:latest
@@ -21,8 +21,12 @@ docker create -p 38884:38884\
 
 Available environment variables:
 
-- **MONEROD_ADDRESS**: the address of the monero daemon to use
 - **NETWORK**: the network to run on, currently either **main**, **stage** or **test**, use main for regtest
+- **MONERO_DAEMON_ADDRESS**: the address of the monero daemon to use in format `{host}:{port}`
+
+Available listening container ports:
+
+- **lws rpc**: the port the lws server is listening on for RPC connections, **8443**
 
 Incoming connections are accepted on `http://0.0.0.0:8443`, if you want to expose the port outside the container use `-p [hostPort]:8443`.
 
@@ -32,18 +36,16 @@ Incoming connections are accepted on `http://0.0.0.0:8443`, if you want to expos
 docker pull ghcr.io/farcaster-project/containers/monerod:0.17.3.2
 docker pull ghcr.io/farcaster-project/containers/monero-lws:latest
 
-docker create -p 18081:18081 -p 18082:18082\
+docker create -p 18080:18080 -p 18081:18081 -p 18082:18082\
     --name monerod\
     --env NETWORK=regtest\
-    --env MONEROD_RPC_PORT=18081\
-    --env MONEROD_ZMQ_PORT=18082\
     --env OFFLINE=--offline\
     --env DIFFICULTY=1\
     ghcr.io/farcaster-project/containers/monerod:0.17.3.2
 
-docker create -p 38884:8443\
+docker create -p 8443:8443\
     --name monero-lws\
-    --env MONEROD_ADDRESS=monerod:18082\
+    --env MONERO_DAEMON_ADDRESS=monerod:18082\
     --env NETWORK=main\
     --link monerod\
     ghcr.io/farcaster-project/containers/monero-lws:latest

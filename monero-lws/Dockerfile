@@ -77,4 +77,4 @@ RUN mkdir /data
 
 LABEL "org.opencontainers.image.description"="An image of a modified monero-lws suited for CI and tests."
 
-CMD ["sh", "-c", "/usr/bin/monero-lws-daemon --network $NETWORK --daemon tcp://$MONEROD_ADDRESS --confirm-external-bind --rest-server http://0.0.0.0:8443 --auto-accept-requests --db-path /data"]
+CMD ["sh", "-c", "/usr/bin/monero-lws-daemon --network $NETWORK --daemon tcp://$MONERO_DAEMON_ADDRESS --confirm-external-bind --rest-server http://0.0.0.0:8443 --auto-accept-requests --db-path /data"]

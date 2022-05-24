@@ -12,14 +12,11 @@ Available `build-arg`:
 
 - **VRS**: bitcoin-core version to install, default _23.0_
 
-Create a container with
+Create a container with exposed ports for RPC and P2P connections
 
 ```
 docker create -p 18443:18443 -p 18444:18444\
     --env NETWORK=regtest\
-    --env FALLBACKFEE=0.00001\
-    --env RPC_PORT=18443\
-    --env P2P_PORT=18444\
     --name bitcoind\
     bitcoin-core:23.0
 ```
@@ -28,12 +25,14 @@ The bitcoin datadir is in the `/data` volume and can be accessed by addtionally 
 
 Available environment variables:
 
-- **NETWORK**: a flag intended for the network, but this can be used more broadly as it is directly passed to `bitcoind` with a prepended `-`
-- **RPC_PORT**: the port bitcoin-core is listening on for RPC connections, usually **8332**, **18332**, and **18443**
-- **P2P_PORT**: the port bitcoin-core is listening on for peer-to-peer connections, usually **8333**, **18333**, and **18444**
-- **FALLBACKFEE**: the fallbackfee parameter
+- **NETWORK**: a flag intended for the network, **mainnet**, **testnet**, or **regtest**
 
-RPC is binded to `0.0.0.0` to accept any connections, you probably want to expose the chosen port outside the container with `-p`.
+RPC is binded to `0.0.0.0` to accept any connections, you probably want to expose the chosen port outside the container with `-p [hostPort]:[containerPort]`.
+
+Available listening container ports:
+
+- **rpc port**: the port bitcoin-core is listening on for RPC connections, **8332**, **18332**, or **18443**
+- **p2p port**: the port bitcoin-core is listening on for peer-to-peer connections, **8333**, **18333**, or **18444**
 
 `bitcoin-cli` is available inside the image, run `docker exec -it {bitcoind} /bin/bash` and then `bitcoin-cli -chain={} -datadir=/data {-getinfo}`.
 
@@ -54,9 +53,6 @@ You can run a job on your chosen image (here it's `rust`) and add a service (her
         image: ghcr.io/farcaster-project/containers/bitcoin-core:23.0
         env:
           NETWORK: regtest
-          RPC_PORT: 18443
-          P2P_PORT: 18444
-          FALLBACKFEE: "0.00001"
         volumes:
           - bitcoind-data:/data
         ports:
@@ -75,9 +71,6 @@ mkdir data
 docker create -p 18443:18443 -p 18444:18444\
     --name bitcoind\
     --env NETWORK=regtest\
-    --env RPC_PORT=18443\
-    --env P2P_PORT=18444\
-    --env FALLBACKFEE=0.00001\
     -v $(pwd)/data:/data\
     ghcr.io/farcaster-project/containers/bitcoin-core:23.0
 
