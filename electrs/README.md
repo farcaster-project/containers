@@ -35,7 +35,7 @@ Available environment variables:
 
 Available listening container ports:
 
-- **electrum rpc**: the port the electrs server is listening on, **50001**, **60001**, or **60401**
+- **electrum rpc**: the port the electrs server is listening on, the argument chosen in **ELECTRUM_RPC_PORT**
 
 `electrum_rpc_addr` is generated with `0.0.0.0` and the chosen electrum port **ELECTRUM_RPC_PORT**, you probably want to expose the chosen port outside the container with `-p [hostPort]:[containerPort]`.
 
