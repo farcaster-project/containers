@@ -29,9 +29,10 @@ docker create -p 18081:18081 -p 18082:18082\
     --name monerod\
     --env NETWORK=regtest\
     --env MONEROD_RPC_PORT=18081\
+    --env MONEROD_ZMQ_PORT=18082\
     --env OFFLINE=--offline\
     --env DIFFICULTY=1\
-    ghcr.io/farcaster-project/containers/monerod:latest
+    ghcr.io/farcaster-project/containers/monerod:0.17.3.2
 
 docker create -p 38884:38884\
     --name monero-lws\
@@ -43,8 +44,6 @@ docker create -p 38884:38884\
 
 docker start monerod
 docker start monero-lws
-
-...
 
 docker kill monerod monero-lws
 docker container rm monerod monero-lws

@@ -3,7 +3,7 @@
 Build the default monerod image with
 
 ```
-docker build -t monerod:latest .
+docker build -t monerod:0.17.3.2 .
 ```
 
 Available `build-arg`:
@@ -20,7 +20,7 @@ docker create -p 18081:18081 -p 18082:18082\
     --env MONEROD_ZMQ_PORT=18082\
     --env OFFLINE=--offline\
     --env DIFFICULTY=1\
-    monerod:latest
+    monerod:0.17.3.2
 ```
 
 Available environment variables:
@@ -35,12 +35,14 @@ RPC and 0MQ are binded to `0.0.0.0` to accept any connections, you probably want
 
 `monero-wallet-cli` and other Monero utilities are available inside the image, run `docker exec -it {monerod} /bin/bash` to get a shell and start using it.
 
+:warning: When running in **regtest** mode the default ports are the same as **mainnet**!
+
 ## GitHub Action usage
 
 ```yaml
 services:
   monerod:
-    image: ghcr.io/farcaster-project/containers/monerod:latest
+    image: ghcr.io/farcaster-project/containers/monerod:0.17.3.2
     env:
       NETWORK: regtest
       MONEROD_RPC_PORT: 18081
@@ -55,7 +57,7 @@ services:
 ## Standalone usage
 
 ```
-docker pull ghcr.io/farcaster-project/containers/monerod:latest
+docker pull ghcr.io/farcaster-project/containers/monerod:0.17.3.2
 docker create -p 18081:18081 -p 18082:18082\
     --name monerod\
     --env NETWORK=regtest\
@@ -63,10 +65,10 @@ docker create -p 18081:18081 -p 18082:18082\
     --env MONEROD_ZMQ_PORT=18082\
     --env OFFLINE=--offline\
     --env DIFFICULTY=1\
-    ghcr.io/farcaster-project/containers/monerod:latest
+    ghcr.io/farcaster-project/containers/monerod:0.17.3.2
 
 docker start monerod
-...
+
 docker kill monerod
 docker container rm monerod
 ```

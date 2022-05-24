@@ -3,7 +3,7 @@
 Build the default electrs image with
 
 ```
-docker build -t electrs:latest .
+docker build -t electrs:0.9.7 .
 ```
 
 Available `build-arg`:
@@ -19,7 +19,7 @@ docker create -p 60401:60401\
     --env NETWORK=regtest\
     --env ELECTRUM_RPC_PORT=60401\
     --name electrs\
-    electrs:latest
+    electrs:0.9.7
 ```
 
 The bitcoin _datadir_ is expected to be in the `/data` volume and can be accessed by addtionally passing for example `-v /path/to/host/folder:data` to `docker create` or `--volumes-from bitcoind`. Additionally, to access bitcoind's rpc running in another container, pass in a `--link <container>` argument with the name of the bitcoind container.
@@ -36,8 +36,8 @@ Available environment variables:
 ## Standalone usage with [`containers/bitcoin-core`](https://github.com/farcaster-project/containers/tree/main/bitcoin-core) image
 
 ```
-docker pull ghcr.io/farcaster-project/containers/bitcoin-core:latest
-docker pull ghcr.io/farcaster-project/containers/electrs:latest
+docker pull ghcr.io/farcaster-project/containers/bitcoin-core:23.0
+docker pull ghcr.io/farcaster-project/containers/electrs:0.9.7
 docker volume create --name bitcoind-data
 
 docker create -p 18443:18443\
@@ -46,7 +46,7 @@ docker create -p 18443:18443\
     --env RPC_PORT=18443\
     --env FALLBACKFEE=0.00001\
     -v bitcoind-data:/data\
-    ghcr.io/farcaster-project/containers/bitcoin-core:latest
+    ghcr.io/farcaster-project/containers/bitcoin-core:23.0
 
 docker create -p 60401:60401\
     --name electrs\
@@ -56,12 +56,10 @@ docker create -p 60401:60401\
     --env ELECTRUM_RPC_PORT=60401\
     --volumes-from bitcoind\
     --link bitcoind\
-    ghcr.io/farcaster-project/containers/electrs:latest
+    ghcr.io/farcaster-project/containers/electrs:0.9.7
 
 docker start bitcoind
 docker start electrs
-
-...
 
 docker kill bitcoind electrs
 docker container rm bitcoind electrs
