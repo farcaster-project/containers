@@ -30,6 +30,23 @@ Available listening container ports:
 
 Incoming connections are accepted on `http://0.0.0.0:8443`, if you want to expose the port outside the container use `-p [hostPort]:8443`.
 
+## GitHub Action usage
+
+```yaml
+services:
+  monerod:
+    image: ghcr.io/farcaster-project/containers/monerod:0.17.3.2
+    env:
+      NETWORK: regtest
+      OFFLINE: --offline
+      DIFFICULTY: 1
+  monero-lws:
+    image: ghcr.io/farcaster-project/containers/monero-lws:latest
+    env:
+      NETWORK: main
+      MONERO_DAEMON_ADDRESS: monerod:18082
+```
+
 ## Standalone usage with [containers/monerod](https://github.com/farcaster-project/containers/tree/main/monerod) image
 
 ```
