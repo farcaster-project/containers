@@ -11,7 +11,7 @@ docker build -t monero-lws:latest .
 Create a container with exposed ports for RPC connections (you need a `monerod` container created to link with)
 
 ```
-docker create -p 8443:8443\
+docker create -p 38884:38884\
     --name monero-lws\
     --env MONERO_DAEMON_ADDRESS=monerod:18082\
     --env NETWORK=main\
@@ -26,9 +26,9 @@ Available environment variables:
 
 Available listening container ports:
 
-- **lws rpc**: the port the lws server is listening on for RPC connections, **8443**
+- **lws rpc**: the port the lws server is listening on for RPC connections, **38884**
 
-Incoming connections are accepted on `http://0.0.0.0:8443`, if you want to expose the port outside the container use `-p [hostPort]:8443`.
+Incoming connections are accepted on `http://0.0.0.0:38884`, if you want to expose the port outside the container use `-p [hostPort]:38884`.
 
 ## GitHub Action usage
 
@@ -60,7 +60,7 @@ docker create -p 18080:18080 -p 18081:18081 -p 18082:18082\
     --env DIFFICULTY=1\
     ghcr.io/farcaster-project/containers/monerod:0.17.3.2
 
-docker create -p 8443:8443\
+docker create -p 38884:38884\
     --name monero-lws\
     --env MONERO_DAEMON_ADDRESS=monerod:18082\
     --env NETWORK=main\
