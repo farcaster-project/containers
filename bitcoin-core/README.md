@@ -25,7 +25,7 @@ The bitcoin datadir is in the `/data` volume and can be accessed by addtionally 
 
 Available environment variables:
 
-- **NETWORK**: a flag intended for the network, **mainnet**, **testnet**, or **regtest**
+- **NETWORK**: the network to work with, either **main**, **test**, **signet**, or **regtest**
 
 RPC is binded to `0.0.0.0` to accept any connections, you probably want to expose the chosen port outside the container with `-p [hostPort]:[containerPort]`.
 
@@ -38,27 +38,22 @@ Available listening container ports:
 
 ## GitHub Action usage
 
-You can run a job on your chosen image (here it's `rust`) and add a service (here named `bitcoin-core`) that share a named volume `bitcoind-data` mounted on `/data`:
+Add a service named `bitcoind` with a named volume `bitcoind-data` mounted on `/data` and expose two ports on host:
 
 ```yaml
-  job:
-    runs-on: ubuntu-latest
-    container:
-      image: rust:latest
-      volumes:
-        - bitcoind-data:/data
-
-    services:
-      bitcoin-core:
-        image: ghcr.io/farcaster-project/containers/bitcoin-core:23.0
-        env:
-          NETWORK: regtest
-        volumes:
-          - bitcoind-data:/data
-        ports:
-          - 18443:18443
-          - 18444:18444
+services:
+  bitcoind:
+    image: ghcr.io/farcaster-project/containers/bitcoin-core:23.0
+    env:
+      NETWORK: regtest
+    volumes:
+      - bitcoind-data:/data
+    ports:
+      - 18443:18443
+      - 18444:18444
 ```
+
+You probably also want to run the job in a container to bind the same named volume and access e.g. the cookie file and connect to the bitcoin service with hostname and port `bitcoin:18443` without the need of `services.<service_id>.ports`.
 
 ## Standalone usage
 
