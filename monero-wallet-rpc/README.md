@@ -44,14 +44,11 @@ services:
       NETWORK: regtest
       OFFLINE: --offline
       DIFFICULTY: 1
-    ports:
-      - 18081:18081
   monero-wallet-rpc:
     image: ghcr.io/farcaster-project/containers/monero-wallet-rpc:0.17.3.2
     env:
       MONERO_DAEMON_ADDRESS: monerod:18081
-    ports:
-      - 18083:18083
+      WALLET_RPC_PORT: 18083
 ```
 
 ## Standalone usage with [`containers/monerod`](https://github.com/farcaster-project/containers/tree/main/monerod) image
