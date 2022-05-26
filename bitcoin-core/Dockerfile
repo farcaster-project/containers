@@ -34,4 +34,4 @@ VOLUME /data
 
 LABEL "org.opencontainers.image.description"="A ready to use bitcoin-core image suited for CI and tests."
 
-CMD ["sh", "-c", "/usr/bin/bitcoind -$NETWORK -server -rest -rpcbind=0.0.0.0 -rpcallowip=0.0.0.0/0 -fallbackfee=0.00001 -datadir=/data"]
+CMD ["sh", "-c", "/usr/bin/bitcoind -chain=$NETWORK -server -rest -rpcbind=0.0.0.0 -rpcallowip=0.0.0.0/0 -fallbackfee=0.00001 -datadir=/data"]

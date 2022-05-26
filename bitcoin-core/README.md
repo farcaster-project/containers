@@ -25,7 +25,7 @@ The bitcoin datadir is in the `/data` volume and can be accessed by addtionally 
 
 Available environment variables:
 
-- **NETWORK**: a flag intended for the network, **mainnet**, **testnet**, or **regtest**
+- **NETWORK**: the network to work with, either **main**, **test**, **signet**, or **regtest**
 
 RPC is binded to `0.0.0.0` to accept any connections, you probably want to expose the chosen port outside the container with `-p [hostPort]:[containerPort]`.
 
