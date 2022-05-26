@@ -28,7 +28,7 @@ The bitcoin _datadir_ is expected to be in the `/data` volume and can be accesse
 
 Available environment variables:
 
-- **NETWORK**: a flag intended for the network, but this can be used more broadly as it is directly passed to `electrs`
+- **NETWORK**: a flag intended for the network, **bitcoin**, **testnet**, **regtest** or **signet**
 - **DAEMON_RPC_ADDR**: the listening RPC address as `[host]:[port]` of bitcoind, usually **8332**, **18332**, or **18443**
 - **DAEMON_P2P_ADDR**: the listening P2P address as `[host]:[port]` of bitcoind, usually **8333**, **18333**, or **18444**
 - **ELECTRUM_RPC_PORT**: electrs listening RPC port, default ports are **50001**, **60001**, and **60401**
@@ -38,6 +38,27 @@ Available listening container ports:
 - **electrum rpc**: the port the electrs server is listening on, the argument chosen in **ELECTRUM_RPC_PORT**
 
 `electrum_rpc_addr` is generated with `0.0.0.0` and the chosen electrum port **ELECTRUM_RPC_PORT**, you probably want to expose the chosen port outside the container with `-p [hostPort]:[containerPort]`.
+
+## GitHub Action usage
+
+```yaml
+services:
+  bitcoind:
+    image: ghcr.io/farcaster-project/containers/bitcoin-core:23.0
+    env:
+      NETWORK: regtest
+    volumes:
+      - bitcoind-data:/data
+  electrs:
+    image: ghcr.io/farcaster-project/containers/electrs:0.9.7
+    env:
+      NETWORK: regtest
+      DAEMON_RPC_ADDR: bitcoind:18443
+      DAEMON_P2P_ADDR: bitcoind:18444
+      ELECTRUM_RPC_PORT: 60401
+    volumes:
+      - bitcoind-data:/data
+```
 
 ## Standalone usage with [`containers/bitcoin-core`](https://github.com/farcaster-project/containers/tree/main/bitcoin-core) image
 
