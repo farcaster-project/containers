@@ -1,7 +1,7 @@
 FROM ubuntu:20.04 AS install
 
 ARG TAG
-ENV MNRTAG=${TAG:-0.17.3.2}
+ENV MNRTAG=${TAG:-0.18.0.0}
 RUN echo $MNRTAG
 
 RUN apt update && apt install -y git
@@ -45,7 +45,7 @@ RUN git clone https://github.com/monero-project/monero && \
 # build monero-lws
 RUN git clone https://github.com/TheCharlatan/monero-lws && \
     cd ../monero-lws && \
-    git checkout changes && \
+    git checkout changes_v0.18 && \
     mkdir build && cd build && \
     cmake -DMONERO_SOURCE_DIR=/monero -DMONERO_BUILD_DIR=/monero/build .. && \
     make && \
