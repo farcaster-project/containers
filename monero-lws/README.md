@@ -43,7 +43,7 @@ services:
       OFFLINE: --offline
       DIFFICULTY: 1
   monero-lws:
-    image: ghcr.io/farcaster-project/containers/monero-lws:latest
+    image: ghcr.io/farcaster-project/containers/monero-lws:monerod-0.17.3.2
     env:
       NETWORK: main
       MONERO_DAEMON_ADDRESS: monerod:18082
@@ -53,7 +53,7 @@ services:
 
 ```
 docker pull ghcr.io/farcaster-project/containers/monerod:0.17.3.2
-docker pull ghcr.io/farcaster-project/containers/monero-lws:latest
+docker pull ghcr.io/farcaster-project/containers/monero-lws:monerod-0.17.3.2
 
 docker create -p 18080:18080 -p 18081:18081 -p 18082:18082\
     --name monerod\
@@ -67,7 +67,7 @@ docker create -p 38884:38884\
     --env MONERO_DAEMON_ADDRESS=monerod:18082\
     --env NETWORK=main\
     --link monerod\
-    ghcr.io/farcaster-project/containers/monero-lws:latest
+    ghcr.io/farcaster-project/containers/monero-lws:monerod-0.17.3.2
 
 docker start monerod
 docker start monero-lws
