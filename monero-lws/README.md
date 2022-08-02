@@ -19,6 +19,8 @@ docker create -p 8443:8443\
     monero-lws:latest
 ```
 
+The `TAG` file is used to build lws against a specific version of monero (checkout `v{TAG}` source tag) and generate a tag of type `monerod-{TAG}`.
+
 Available environment variables:
 
 - **NETWORK**: the network to run on, currently either **main**, **stage** or **test**, use main for regtest
