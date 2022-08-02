@@ -5,6 +5,7 @@ on:
     branches: [ main ]
     paths:
       - 'monero-lws/Dockerfile'
+      - 'monero-lws/TAG'
 
 jobs:
   monero-lws:
@@ -21,9 +22,15 @@ jobs:
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}
 
+    - name: Setup TAG
+      run: |
+          export TAG=$(cat monero-lws/TAG)
+          echo "TAG=$TAG" >> $GITHUB_ENV
+
     - name: Docker build
-      run: docker build -f $GITHUB_WORKSPACE/monero-lws/Dockerfile -t ghcr.io/farcaster-project/containers/monero-lws:latest $GITHUB_WORKSPACE/monero-lws
+      run: docker build --build-arg TAG=${TAG} -f $GITHUB_WORKSPACE/monero-lws/Dockerfile -t ghcr.io/farcaster-project/containers/monero-lws:monerod-${TAG} -t ghcr.io/farcaster-project/containers/monero-lws:latest $GITHUB_WORKSPACE/monero-lws
 
     - name: Docker push to GitHub Packages
       run:  |
+          docker push ghcr.io/farcaster-project/containers/monero-lws:monerod-${TAG}
           docker push ghcr.io/farcaster-project/containers/monero-lws:latest

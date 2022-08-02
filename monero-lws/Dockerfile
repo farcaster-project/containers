@@ -1,5 +1,9 @@
 FROM ubuntu:20.04 AS install
 
+ARG TAG
+ENV MNRTAG=${TAG:-0.17.3.0}
+RUN echo $MNRTAG
+
 RUN apt update && apt install -y git
 RUN DEBIAN_FRONTEND=noninteractive apt-get --no-install-recommends --yes install \
     automake \
@@ -32,7 +36,7 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get --no-install-recommends --yes install
 # build monero
 RUN git clone https://github.com/monero-project/monero && \
     cd monero && \
-    git checkout v0.17.3.0 && \
+    git checkout v$MNRTAG && \
     git submodule init && git submodule update && \
     mkdir build && cd build && \
     cmake -DCMAKE_CXX_FLAGS="-mno-avx512f" -DCMAKE_C_FLAGS="-mno-avx512f" .. && \
