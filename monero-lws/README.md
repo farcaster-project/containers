@@ -37,13 +37,13 @@ Incoming connections are accepted on `http://0.0.0.0:38884`, if you want to expo
 ```yaml
 services:
   monerod:
-    image: ghcr.io/farcaster-project/containers/monerod:0.18.0.0
+    image: ghcr.io/farcaster-project/containers/monerod:0.18.1.2
     env:
       NETWORK: regtest
       OFFLINE: --offline
       DIFFICULTY: 1
   monero-lws:
-    image: ghcr.io/farcaster-project/containers/monero-lws:monerod-0.18.0.0
+    image: ghcr.io/farcaster-project/containers/monero-lws:monerod-0.18.1.2
     env:
       NETWORK: main
       MONERO_DAEMON_ADDRESS: monerod:18082
@@ -52,22 +52,22 @@ services:
 ## Standalone usage with [containers/monerod](https://github.com/farcaster-project/containers/tree/main/monerod) image
 
 ```
-docker pull ghcr.io/farcaster-project/containers/monerod:0.18.0.0
-docker pull ghcr.io/farcaster-project/containers/monero-lws:monerod-0.18.0.0
+docker pull ghcr.io/farcaster-project/containers/monerod:0.18.1.2
+docker pull ghcr.io/farcaster-project/containers/monero-lws:monerod-0.18.1.2
 
 docker create -p 18080:18080 -p 18081:18081 -p 18082:18082\
     --name monerod\
     --env NETWORK=regtest\
     --env OFFLINE=--offline\
     --env DIFFICULTY=1\
-    ghcr.io/farcaster-project/containers/monerod:0.18.0.0
+    ghcr.io/farcaster-project/containers/monerod:0.18.1.2
 
 docker create -p 38884:38884\
     --name monero-lws\
     --env MONERO_DAEMON_ADDRESS=monerod:18082\
     --env NETWORK=main\
     --link monerod\
-    ghcr.io/farcaster-project/containers/monero-lws:monerod-0.18.0.0
+    ghcr.io/farcaster-project/containers/monero-lws:monerod-0.18.1.2
 
 docker start monerod
 docker start monero-lws
