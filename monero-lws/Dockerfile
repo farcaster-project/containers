@@ -39,7 +39,7 @@ RUN git clone https://github.com/monero-project/monero && \
     git checkout v$MNRTAG && \
     git submodule init && git submodule update && \
     mkdir build && cd build && \
-    cmake .. && \
+    cmake -DCMAKE_CXX_FLAGS="-mno-avx512f" -DCMAKE_C_FLAGS="-mno-avx512f" .. && \
     make -j$(nproc)
 
 # build monero-lws
