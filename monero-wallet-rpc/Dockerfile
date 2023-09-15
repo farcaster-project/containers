@@ -1,7 +1,7 @@
 FROM debian:bullseye-slim AS install
 
 ARG VRS
-ENV VERSION=${VRS:-v0.18.1.2}
+ENV VERSION=${VRS:-v0.18.2.2}
 RUN echo $VERSION
 
 RUN apt update && apt install -y wget tar bzip2
