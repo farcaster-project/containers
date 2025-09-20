@@ -1,7 +1,7 @@
-FROM debian:bullseye-slim AS install
+FROM debian:bookworm-slim AS install
 
 ARG VRS
-ENV VERSION=${VRS:-v0.18.2.2}
+ENV VERSION=${VRS:-v0.18.3.1}
 RUN echo $VERSION
 
 RUN apt update && apt install -y wget tar bzip2
@@ -14,7 +14,7 @@ RUN echo "$(head -n 1 ./SHASUM) monero-linux-x64-$VERSION.tar.bz2" | sha256sum -
 RUN tar xf monero-linux-x64-$VERSION.tar.bz2
 RUN install -m 0755 -o root -g root -t /usr/bin monero-x86_64-linux-gnu-$VERSION/monero*
 
-FROM debian:bullseye-slim
+FROM debian:bookworm-slim
 
 COPY --from=install /usr/bin/monero-wallet* /usr/bin/
 
