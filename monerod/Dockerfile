@@ -1,7 +1,7 @@
 FROM debian:bookworm-slim AS install
 
 ARG VRS
-ENV VERSION=${VRS:-v0.18.4.0}
+ENV VERSION=${VRS:-v0.18.4.1}
 RUN echo $VERSION
 
 RUN apt update && apt install -y wget tar bzip2
