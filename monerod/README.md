@@ -3,12 +3,12 @@
 Build the default monerod image with
 
 ```
-docker build -t monerod:0.18.4.3 .
+docker build -t monerod:0.18.4.4 .
 ```
 
 Available `build-arg`:
 
-- **VRS**: monerod version to install, default _0.18.4.3_
+- **VRS**: monerod version to install, default _0.18.4.4_
 
 Create a container with
 
@@ -18,7 +18,7 @@ docker create -p 18080:18080 -p 18081:18081 -p 18082:18082\
     --env NETWORK=regtest\
     --env OFFLINE=--offline\
     --env DIFFICULTY=1\
-    monerod:0.18.4.3
+    monerod:0.18.4.4
 ```
 
 Available environment variables:
@@ -44,7 +44,7 @@ RPC and Zero MQ are binded to `0.0.0.0` to accept any connections, you probably 
 ```yaml
 services:
   monerod:
-    image: ghcr.io/farcaster-project/containers/monerod:0.18.4.3
+    image: ghcr.io/farcaster-project/containers/monerod:0.18.4.4
     env:
       NETWORK: regtest
       OFFLINE: --offline
@@ -58,13 +58,13 @@ services:
 ## Standalone usage
 
 ```
-docker pull ghcr.io/farcaster-project/containers/monerod:0.18.4.3
+docker pull ghcr.io/farcaster-project/containers/monerod:0.18.4.4
 docker create -p 18080:18080 -p 18081:18081 -p 18082:18082\
     --name monerod\
     --env NETWORK=regtest\
     --env OFFLINE=--offline\
     --env DIFFICULTY=1\
-    ghcr.io/farcaster-project/containers/monerod:0.18.4.3
+    ghcr.io/farcaster-project/containers/monerod:0.18.4.4
 
 docker start monerod
 
