@@ -27,4 +27,4 @@ EXPOSE 18082 28082 38082
 
 LABEL "org.opencontainers.image.description"="A ready to use monerod image suited for CI and tests."
 
-CMD ["sh", "-c", "/usr/bin/monerod --$NETWORK --p2p-bind-ip 0.0.0.0 --rpc-bind-ip 0.0.0.0 --zmq-rpc-bind-ip 0.0.0.0 --confirm-external-bind --non-interactive $OFFLINE --fixed-difficulty $DIFFICULTY"]
+CMD ["sh", "-c", "/usr/bin/monerod --$NETWORK --p2p-bind-ip 0.0.0.0 --rpc-bind-ip 0.0.0.0 --zmq-rpc-bind-ip 0.0.0.0 --confirm-external-bind --confirm-zmq-rpc-external-bind --non-interactive $OFFLINE --fixed-difficulty $DIFFICULTY"]
