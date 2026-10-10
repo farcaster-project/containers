@@ -1,7 +1,11 @@
-name: Test monerod dockerfile
+name: Test monerod Dockerfile
 
 on:
   pull_request:
+    paths:
+      - 'monerod/Dockerfile'
+      - 'monerod/SHASUM'
+      - 'monerod/VERSION'
 
 jobs:
   monerod-test:
@@ -16,4 +20,4 @@ jobs:
           echo "VERSION=$VERSION" >> $GITHUB_ENV
 
     - name: Docker build
-      run: docker build --build-arg VRS=v${VERSION} -f $GITHUB_WORKSPACE/monerod/Dockerfile $GITHUB_WORKSPACE/monerod
+      run: docker build --build-arg VRS=v${VERSION} $GITHUB_WORKSPACE/monerod
