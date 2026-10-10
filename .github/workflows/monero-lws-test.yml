@@ -1,0 +1,22 @@
+name: Test Monero LWS Dockerfile
+
+on:
+  pull_request:
+    paths:
+      - 'monero-lws/Dockerfile'
+      - 'monero-lws/TAG'
+
+jobs:
+  monero-lws-test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v7
+
+    - name: Setup TAG
+      run: |
+          export TAG=$(cat monero-lws/TAG)
+          echo "TAG=$TAG" >> $GITHUB_ENV
+
+    - name: Docker build
+      run: docker build --build-arg TAG=${TAG} $GITHUB_WORKSPACE/monero-lws
