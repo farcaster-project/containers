@@ -43,7 +43,7 @@ RUN git clone https://github.com/monero-project/monero && \
     make -j$(nproc)
 
 # build monero-lws
-RUN git clone https://github.com/TheCharlatan/monero-lws && \
+RUN git clone https://github.com/sedited/monero-lws && \
     cd ../monero-lws && \
     git checkout changes_v0.18 && \
     mkdir build && cd build && \

@@ -1,4 +1,4 @@
-# [`monero-lws`](https://github.com/TheCharlatan/monero-lws) image
+# [`monero-lws`](https://github.com/sedited/monero-lws) image
 
 > We currently use a modified version of [vtnerd/monero-lws](https://github.com/vtnerd/monero-lws)
 
