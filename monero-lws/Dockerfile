@@ -1,7 +1,7 @@
 FROM ubuntu:20.04 AS install
 
 ARG TAG
-ENV MNRTAG=${TAG:-0.18.3.4}
+ENV MNRTAG=${TAG:-0.18.2.0}
 RUN echo $MNRTAG
 
 RUN apt update && apt install -y git
