@@ -1,4 +1,4 @@
-name: Test monero-wallet-rpc dockerfile
+name: Test monero-wallet-rpc Dockerfile
 
 on:
   pull_request:
