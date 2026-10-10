@@ -1,0 +1,19 @@
+name: Test monerod dockerfile
+
+on:
+  pull_request:
+
+jobs:
+  monerod-test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v7
+
+    - name: Setup VERSION
+      run: |
+          export VERSION=$(cat monerod/VERSION)
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+
+    - name: Docker build
+      run: docker build --build-arg VRS=v${VERSION} -f $GITHUB_WORKSPACE/monerod/Dockerfile $GITHUB_WORKSPACE/monerod
