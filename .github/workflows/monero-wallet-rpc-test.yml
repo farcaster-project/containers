@@ -1,0 +1,23 @@
+name: Test monero-wallet-rpc dockerfile
+
+on:
+  pull_request:
+    paths:
+      - 'monero-wallet-rpc/Dockerfile'
+      - 'monero-wallet-rpc/SHASUM'
+      - 'monero-wallet-rpc/VERSION'
+
+jobs:
+  monero-wallet-rpc-test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v7
+
+    - name: Setup VERSION
+      run: |
+          export VERSION=$(cat monero-wallet-rpc/VERSION)
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+
+    - name: Docker build
+      run: docker build --build-arg VRS=v${VERSION} $GITHUB_WORKSPACE/monero-wallet-rpc
