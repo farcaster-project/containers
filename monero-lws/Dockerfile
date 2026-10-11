@@ -1,8 +1,11 @@
 FROM ubuntu:20.04 AS install
 
-ARG TAG
-ENV MNRTAG=${TAG:-0.18.2.2}
-RUN echo $MNRTAG
+ARG VERSION_ARG
+ENV VERSION=${VERSION_ARG:-0.1}
+RUN echo $VERSION
+ARG MONERO_VERSION_ARG
+ENV MONERO_VERSION=${MONERO_VERSION_ARG:-0.18.2.2}
+RUN echo $MONERO_VERSION
 
 RUN apt update && apt install -y git
 RUN DEBIAN_FRONTEND=noninteractive apt-get --no-install-recommends --yes install \
@@ -36,16 +39,16 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get --no-install-recommends --yes install
 # build monero
 RUN git clone https://github.com/monero-project/monero && \
     cd monero && \
-    git checkout v$MNRTAG && \
+    git checkout v${MONERO_VERSION} && \
     git submodule init && git submodule update && \
     mkdir build && cd build && \
     cmake -DCMAKE_CXX_FLAGS="-mno-avx512f" -DCMAKE_C_FLAGS="-mno-avx512f" .. && \
     make -j$(nproc)
 
 # build monero-lws
-RUN git clone https://github.com/sedited/monero-lws && \
+RUN git clone https://github.com/silverpill/monero-lws && \
     cd ../monero-lws && \
-    git checkout changes_v0.18 && \
+    git checkout v${VERSION}-test && \
     mkdir build && cd build && \
     cmake -DMONERO_SOURCE_DIR=/monero -DMONERO_BUILD_DIR=/monero/build .. && \
     make && \
