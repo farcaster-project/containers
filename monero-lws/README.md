@@ -1,4 +1,4 @@
-# [`monero-lws`](https://github.com/sedited/monero-lws) image
+# [`monero-lws`](https://github.com/silverpill/monero-lws) image
 
 > We currently use a modified version of [vtnerd/monero-lws](https://github.com/vtnerd/monero-lws)
 
@@ -19,7 +19,7 @@ docker create -p 38884:38884\
     monero-lws:latest
 ```
 
-The `TAG` file is used to build lws against a specific version of monero (checkout `v{TAG}` source tag) and generate a tag of type `monerod-{TAG}`.
+The `VERSION` file is used to build a specific version of monero-lws. The `MONERO_VERSION` file is used to build lws against a specific version of monero (checkout `v{MONERO_VERSION}` source tag) and generate a tag of type `{VERSION}-monero-{MONERO_VERSION}`.
 
 Available environment variables:
 
@@ -43,7 +43,7 @@ services:
       OFFLINE: --offline
       DIFFICULTY: 1
   monero-lws:
-    image: ghcr.io/farcaster-project/containers/monero-lws:monerod-0.18.2.2
+    image: ghcr.io/farcaster-project/containers/monero-lws:0.1-monero-0.18.2.2
     env:
       NETWORK: main
       MONERO_DAEMON_ADDRESS: monerod:18082
@@ -53,7 +53,7 @@ services:
 
 ```
 docker pull ghcr.io/farcaster-project/containers/monerod:0.18.2.2
-docker pull ghcr.io/farcaster-project/containers/monero-lws:monerod-0.18.2.2
+docker pull ghcr.io/farcaster-project/containers/monero-lws:0.1-monero-0.18.2.2
 
 docker create -p 18080:18080 -p 18081:18081 -p 18082:18082\
     --name monerod\
@@ -67,7 +67,7 @@ docker create -p 38884:38884\
     --env MONERO_DAEMON_ADDRESS=monerod:18082\
     --env NETWORK=main\
     --link monerod\
-    ghcr.io/farcaster-project/containers/monero-lws:monerod-0.18.2.2
+    ghcr.io/farcaster-project/containers/monero-lws:0.1-monero-0.18.2.2
 
 docker start monerod
 docker start monero-lws
