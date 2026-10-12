@@ -1,8 +1,7 @@
 FROM ubuntu:20.04 AS install
-# LWS v0.3 patch 1
 
 ARG VERSION_ARG
-ENV VERSION=${VERSION_ARG:-0.3}
+ENV VERSION=${VERSION_ARG:-1.0.0}
 RUN echo $VERSION
 ARG MONERO_VERSION_ARG
 ENV MONERO_VERSION=${MONERO_VERSION_ARG:-0.18.5.3}
@@ -85,4 +84,4 @@ RUN mkdir /data
 
 LABEL "org.opencontainers.image.description"="An image of a modified monero-lws suited for CI and tests."
 
-CMD ["sh", "-c", "/usr/bin/monero-lws-daemon --network $NETWORK --daemon tcp://$MONERO_DAEMON_ADDRESS --confirm-external-bind --rest-server http://0.0.0.0:38884 --auto-accept-creation --db-path /data"]
+CMD ["sh", "-c", "/usr/bin/monero-lws-daemon --network $NETWORK --regtest --daemon tcp://$MONERO_DAEMON_ADDRESS --confirm-external-bind --rest-server http://0.0.0.0:38884 --auto-accept-creation --auto-accept-import --db-path /data"]
