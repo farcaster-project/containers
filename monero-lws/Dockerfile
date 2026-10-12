@@ -1,4 +1,4 @@
-FROM ubuntu:20.04 AS install
+FROM ubuntu:22.04 AS install
 
 ARG VERSION_ARG
 ENV VERSION=${VERSION_ARG:-1.0.0}
@@ -55,7 +55,7 @@ RUN git clone https://github.com/silverpill/monero-lws && \
     make install
 
 # separate deployment container
-FROM ubuntu:20.04
+FROM ubuntu:22.04
 
 COPY --from=install /usr/local/bin/monero* /usr/bin/
 
