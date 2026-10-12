@@ -1,10 +1,10 @@
 FROM ubuntu:20.04 AS install
 
 ARG VERSION_ARG
-ENV VERSION=${VERSION_ARG:-0.2}
+ENV VERSION=${VERSION_ARG:-0.3}
 RUN echo $VERSION
 ARG MONERO_VERSION_ARG
-ENV MONERO_VERSION=${MONERO_VERSION_ARG:-0.18.4.0}
+ENV MONERO_VERSION=${MONERO_VERSION_ARG:-0.18.5.1}
 RUN echo $MONERO_VERSION
 
 RUN apt update && apt install -y git
@@ -84,4 +84,4 @@ RUN mkdir /data
 
 LABEL "org.opencontainers.image.description"="An image of a modified monero-lws suited for CI and tests."
 
-CMD ["sh", "-c", "/usr/bin/monero-lws-daemon --network $NETWORK --daemon tcp://$MONERO_DAEMON_ADDRESS --confirm-external-bind --rest-server http://0.0.0.0:38884 --auto-accept-requests --db-path /data"]
+CMD ["sh", "-c", "/usr/bin/monero-lws-daemon --network $NETWORK --daemon tcp://$MONERO_DAEMON_ADDRESS --confirm-external-bind --rest-server http://0.0.0.0:38884 --auto-accept-creation --db-path /data"]
