@@ -1,8 +1,7 @@
-FROM ubuntu:20.04 AS install
-# LWS v0.3 patch 1
+FROM ubuntu:22.04 AS install
 
 ARG VERSION_ARG
-ENV VERSION=${VERSION_ARG:-0.3}
+ENV VERSION=${VERSION_ARG:-1.0.0}
 RUN echo $VERSION
 ARG MONERO_VERSION_ARG
 ENV MONERO_VERSION=${MONERO_VERSION_ARG:-0.18.5.3}
@@ -23,6 +22,7 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get --no-install-recommends --yes install
     pkg-config \
     gperf \
     libboost-chrono-dev \
+    libboost-coroutine-dev \
     libboost-date-time-dev \
     libboost-filesystem-dev  \
     libboost-locale-dev \
@@ -51,12 +51,12 @@ RUN git clone https://github.com/silverpill/monero-lws && \
     cd ../monero-lws && \
     git checkout v${VERSION}-test && \
     mkdir build && cd build && \
-    cmake -DMONERO_SOURCE_DIR=/monero -DMONERO_BUILD_DIR=/monero/build .. && \
+    cmake -D CMAKE_BUILD_TYPE=Release -DMONERO_SOURCE_DIR=/monero -DMONERO_BUILD_DIR=/monero/build .. && \
     make && \
     make install
 
 # separate deployment container
-FROM ubuntu:20.04
+FROM ubuntu:22.04
 
 COPY --from=install /usr/local/bin/monero* /usr/bin/
 
@@ -85,4 +85,4 @@ RUN mkdir /data
 
 LABEL "org.opencontainers.image.description"="An image of a modified monero-lws suited for CI and tests."
 
-CMD ["sh", "-c", "/usr/bin/monero-lws-daemon --network $NETWORK --daemon tcp://$MONERO_DAEMON_ADDRESS --confirm-external-bind --rest-server http://0.0.0.0:38884 --auto-accept-creation --db-path /data"]
+CMD ["sh", "-c", "/usr/bin/monero-lws-daemon --network $NETWORK --regtest --daemon tcp://$MONERO_DAEMON_ADDRESS --confirm-external-bind --rest-server http://0.0.0.0:38884 --auto-accept-creation --auto-accept-import --db-path /data"]
