@@ -51,7 +51,7 @@ RUN git clone https://github.com/silverpill/monero-lws && \
     cd ../monero-lws && \
     git checkout v${VERSION}-test && \
     mkdir build && cd build && \
-    cmake -DMONERO_SOURCE_DIR=/monero -DMONERO_BUILD_DIR=/monero/build .. && \
+    cmake -D CMAKE_BUILD_TYPE=Release -DMONERO_SOURCE_DIR=/monero -DMONERO_BUILD_DIR=/monero/build .. && \
     make && \
     make install
 
