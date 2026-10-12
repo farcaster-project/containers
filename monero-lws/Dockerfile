@@ -1,4 +1,5 @@
 FROM ubuntu:20.04 AS install
+# LWS v0.3 patch 1
 
 ARG VERSION_ARG
 ENV VERSION=${VERSION_ARG:-0.3}
