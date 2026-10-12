@@ -22,6 +22,7 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get --no-install-recommends --yes install
     pkg-config \
     gperf \
     libboost-chrono-dev \
+    libboost-coroutine-dev \
     libboost-date-time-dev \
     libboost-filesystem-dev  \
     libboost-locale-dev \
