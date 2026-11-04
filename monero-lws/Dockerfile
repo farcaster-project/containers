@@ -49,7 +49,7 @@ RUN git clone https://github.com/monero-project/monero && \
 # build monero-lws
 RUN git clone https://github.com/vtnerd/monero-lws && \
     cd ../monero-lws && \
-    git checkout v${VERSION}-test && \
+    git checkout v${VERSION} && \
     mkdir build && cd build && \
     cmake -D CMAKE_BUILD_TYPE=Release -DMONERO_SOURCE_DIR=/monero -DMONERO_BUILD_DIR=/monero/build .. && \
     make && \
