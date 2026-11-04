@@ -1,7 +1,7 @@
 FROM ubuntu:22.04 AS install
 
 ARG VERSION_ARG
-ENV VERSION=${VERSION_ARG:-1.0.0}
+ENV VERSION=${VERSION_ARG:-1.0.5}
 RUN echo $VERSION
 ARG MONERO_VERSION_ARG
 ENV MONERO_VERSION=${MONERO_VERSION_ARG:-0.18.5.3}
@@ -47,7 +47,7 @@ RUN git clone https://github.com/monero-project/monero && \
     make -j$(nproc)
 
 # build monero-lws
-RUN git clone https://github.com/silverpill/monero-lws && \
+RUN git clone https://github.com/vtnerd/monero-lws && \
     cd ../monero-lws && \
     git checkout v${VERSION}-test && \
     mkdir build && cd build && \
